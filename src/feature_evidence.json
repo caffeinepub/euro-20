@@ -2,11 +2,11 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-add-a-voice-pronunciation-control-for-each-lesson-item-in-the-languagelearningpage-so-users-can-play-audio-for-the-item-s-native-text-using-the-browser-s-built-in-text-to-speech-web-speech-api",
-      "featureTitle": "Add a voice pronunciation control for each lesson item in the LanguageLearningPage so users can play audio for the item’s native text using the browser’s built-in text-to-speech (Web Speech API).",
+      "featureId": "feature-add-cefr-level-support-a1-a2-b1-b2-c1-c2-across-the-lesson-content-model-so-lesson-content-is-addressable-by-language-cefr-level-section",
+      "featureTitle": "Add CEFR level support (A1, A2, B1, B2, C1, C2) across the lesson content model so lesson content is addressable by language + CEFR level + section.",
       "files": [
-        "frontend/src/components/PronunciationControl.tsx",
-        "frontend/src/hooks/useSpeechSynthesis.ts",
+        "frontend/src/lib/cefrLevels.ts",
+        "frontend/src/lib/lessonContent.ts",
         "frontend/src/pages/LanguageLearningPage.tsx"
       ],
       "components": [
@@ -18,17 +18,17 @@
         "github-export-icp-cli@1.0.0"
       ],
       "testIds": [
-        "REQ-9"
+        "REQ-12"
       ],
       "confidence": "high"
     },
     {
-      "featureId": "feature-select-an-appropriate-speech-synthesis-language-voice-per-supported-language-by-mapping-the-app-s-language-codes-from-frontend-src-lib-languages-ts-to-bcp-47-language-tags-and-using-those-tags-when-creating-utterances",
-      "featureTitle": "Select an appropriate speech synthesis language/voice per supported language by mapping the app’s language codes (from `frontend/src/lib/languages.ts`) to BCP-47 language tags and using those tags when creating utterances.",
+      "featureId": "feature-update-the-seeded-lesson-dataset-to-include-cefr-levels-for-all-20-supported-languages-using-the-current-content-as-the-a1-level-and-providing-valid-non-crashing-content-entries-for-a2-b1-b2-c1-and-c2-for-every-language-and-section",
+      "featureTitle": "Update the seeded lesson dataset to include CEFR levels for all 20 supported languages, using the current content as the A1 level and providing valid (non-crashing) content entries for A2, B1, B2, C1, and C2 for every language and section.",
       "files": [
-        "frontend/src/components/PronunciationControl.tsx",
-        "frontend/src/hooks/useSpeechSynthesis.ts",
-        "frontend/src/lib/speechSynthesisLanguages.ts"
+        "frontend/src/data/lessonsSeed.ts",
+        "frontend/src/lib/languages.ts",
+        "frontend/src/lib/lessonContent.ts"
       ],
       "components": [
         "authorization@4.0.0",
@@ -39,16 +39,15 @@
         "github-export-icp-cli@1.0.0"
       ],
       "testIds": [
-        "REQ-10"
+        "REQ-13"
       ],
       "confidence": "high"
     },
     {
-      "featureId": "feature-provide-basic-playback-ux-for-pronunciation-so-users-can-stop-interrupt-speech-and-avoid-overlapping-audio-when-multiple-items-are-played",
-      "featureTitle": "Provide basic playback UX for pronunciation so users can stop/interrupt speech and avoid overlapping audio when multiple items are played.",
+      "featureId": "feature-add-a-cefr-level-selector-to-the-language-learning-experience-and-wire-it-so-switching-levels-updates-the-displayed-lesson-content-while-keeping-the-existing-section-navigation-behavior",
+      "featureTitle": "Add a CEFR level selector to the language learning experience and wire it so switching levels updates the displayed lesson content while keeping the existing section navigation behavior.",
       "files": [
-        "frontend/src/components/PronunciationControl.tsx",
-        "frontend/src/hooks/useSpeechSynthesis.ts",
+        "frontend/src/lib/cefrLevels.ts",
         "frontend/src/pages/LanguageLearningPage.tsx"
       ],
       "components": [
@@ -60,7 +59,48 @@
         "github-export-icp-cli@1.0.0"
       ],
       "testIds": [
-        "REQ-11"
+        "REQ-14"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-a-country-flag-static-asset-for-each-of-the-20-supported-languages-and-display-the-flag-in-the-home-language-grid-and-in-the-language-switcher-dropdown-and-or-current-selection-display",
+      "featureTitle": "Add a country flag static asset for each of the 20 supported languages and display the flag in the home language grid and in the language switcher dropdown (and/or current selection display).",
+      "files": [
+        "frontend/src/components/LanguageSwitcher.tsx",
+        "frontend/src/pages/HomePage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-15"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-extend-the-supported-language-metadata-to-include-a-flag-asset-reference-per-language-so-ui-components-can-consistently-render-flags-from-the-centralized-language-definition",
+      "featureTitle": "Extend the supported language metadata to include a flag asset reference per language so UI components can consistently render flags from the centralized language definition.",
+      "files": [
+        "frontend/src/components/LanguageSwitcher.tsx",
+        "frontend/src/lib/languages.ts",
+        "frontend/src/pages/HomePage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-16"
       ],
       "confidence": "high"
     }

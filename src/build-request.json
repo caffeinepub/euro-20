@@ -1,75 +1,143 @@
 {
   "kind": "build_request",
-  "title": "Add voice pronunciation (text-to-speech) for lesson items across all languages",
+  "title": "Add CEFR levels (A1–C2) for all languages and display a flag per language",
   "priority": "normal",
   "requirements": [
     {
-      "id": "REQ-9",
-      "text": "Add a voice pronunciation control for each lesson item in the LanguageLearningPage so users can play audio for the item’s native text using the browser’s built-in text-to-speech (Web Speech API).",
+      "id": "REQ-12",
+      "text": "Add CEFR level support (A1, A2, B1, B2, C1, C2) across the lesson content model so lesson content is addressable by language + CEFR level + section.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-4"
+          "msg-5"
         ],
         "quotes": [
-          "can you please add voice pronounciaton to each language"
+          "ok great now make all 20 languages have a1 a2 b1 b2 and c1 c2 levels also add the countries flag for every langage"
         ]
       },
       "acceptanceCriteria": [
-        "Each lesson item that has a non-empty `native` string displays a clearly labeled Play control (e.g., a button) next to the native text.",
-        "Clicking Play speaks the item’s `native` text out loud using `window.speechSynthesis` (no backend calls).",
-        "If an item has no `native` text, no Play control is shown for that item.",
-        "User-facing error/empty states are shown in English if speech is unavailable or fails (e.g., 'Voice pronunciation is not supported in this browser')."
+        "A CEFR level list exists in the frontend and includes exactly: A1, A2, B1, B2, C1, C2.",
+        "Lesson content lookup supports querying by (languageCode, levelId, sectionId).",
+        "Existing A1 content continues to render correctly for all languages (no regressions vs current A1-only behavior)."
       ]
     },
     {
-      "id": "REQ-10",
-      "text": "Select an appropriate speech synthesis language/voice per supported language by mapping the app’s language codes (from `frontend/src/lib/languages.ts`) to BCP-47 language tags and using those tags when creating utterances.",
+      "id": "REQ-13",
+      "text": "Update the seeded lesson dataset to include CEFR levels for all 20 supported languages, using the current content as the A1 level and providing valid (non-crashing) content entries for A2, B1, B2, C1, and C2 for every language and section.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-4"
+          "msg-5"
         ],
         "quotes": [
-          "add voice pronounciaton to each language"
+          "make all 20 languages have a1 a2 b1 b2 and c1 c2 levels"
         ]
       },
       "acceptanceCriteria": [
-        "A centralized mapping exists for all 20 supported language codes to BCP-47 tags (e.g., de->de-DE, fr->fr-FR, etc.).",
-        "When Play is pressed, the utterance uses the mapped language tag (`utterance.lang = ...`) for the currently selected language.",
-        "If no matching voice is available for the mapped language tag, the app falls back gracefully (e.g., uses default voice) and remains functional."
+        "For each language code in frontend/src/lib/languages.ts, the seed dataset contains entries for levels A1, A2, B1, B2, C1, C2.",
+        "For each (language, level), all existing sections (alphabet, greetings, numbers, common, sentences) resolve to a LessonContent object with an items array (can be empty if content is not yet available).",
+        "The app never shows 'Content not available for this language/section' for any supported (language, level, section) combination."
       ]
     },
     {
-      "id": "REQ-11",
-      "text": "Provide basic playback UX for pronunciation so users can stop/interrupt speech and avoid overlapping audio when multiple items are played.",
+      "id": "REQ-14",
+      "text": "Add a CEFR level selector to the language learning experience and wire it so switching levels updates the displayed lesson content while keeping the existing section navigation behavior.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-4"
+          "msg-5"
         ],
         "quotes": [
-          "add voice pronounciaton"
+          "make all 20 languages have a1 a2 b1 b2 and c1 c2 levels"
         ]
       },
       "acceptanceCriteria": [
-        "Starting a new pronunciation cancels any currently playing speech before beginning the new utterance.",
-        "A Stop control is available while speech is playing (or Play toggles to Stop), and Stop immediately cancels playback.",
-        "The UI prevents repeated rapid clicks from causing overlapping or queued utterances (e.g., by cancelling before speaking and reflecting playing state)."
+        "LanguageLearningPage provides a visible control to select A1, A2, B1, B2, C1, C2.",
+        "Changing the selected level updates the rendered introduction and items for the current section.",
+        "Section navigation continues to work within the selected level.",
+        "User-facing text added for the level selector is in English."
+      ]
+    },
+    {
+      "id": "REQ-15",
+      "text": "Add a country flag static asset for each of the 20 supported languages and display the flag in the home language grid and in the language switcher dropdown (and/or current selection display).",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-5"
+        ],
+        "quotes": [
+          "also add the countries flag for every langage"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Each supported language has a corresponding flag image available as a frontend static asset under frontend/public/assets/generated.",
+        "HomePage language cards display each language’s flag instead of the generic globe icon (or alongside it) without layout breakage on mobile and desktop.",
+        "LanguageSwitcher shows each language’s flag in the dropdown list and for the currently selected language.",
+        "No flag images are served via the backend."
+      ]
+    },
+    {
+      "id": "REQ-16",
+      "text": "Extend the supported language metadata to include a flag asset reference per language so UI components can consistently render flags from the centralized language definition.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-5"
+        ],
+        "quotes": [
+          "add the countries flag for every langage"
+        ]
+      },
+      "acceptanceCriteria": [
+        "frontend/src/lib/languages.ts exports language entries that include a stable reference to the flag asset for that language.",
+        "All flag rendering in HomePage/LanguageSwitcher uses the centralized language metadata rather than hardcoded per-component mappings."
       ]
     }
   ],
   "constraints": [
-    "Frontend immutable paths must not be edited: `frontend/src/hooks/useInternetIdentity.ts`, `frontend/src/hooks/useInternetIdentity.tsx`, `frontend/src/hooks/useActor.ts`, `frontend/src/main.tsx`, and anything under `frontend/src/components/ui`.",
-    "Do not add external AI/LLM or third-party TTS services; use only in-browser capabilities."
+    "Do not edit files in frontend immutablePaths (e.g., frontend/src/hooks/useInternetIdentity.ts(x), frontend/src/hooks/useActor.ts, frontend/src/main.tsx, frontend/src/components/ui).",
+    "Backend must remain a single Motoko actor (no new backend canisters/services).",
+    "Do not fetch flag images from third-party APIs/CDNs at runtime; use bundled static assets."
   ],
   "nonGoals": [
-    "Do not add recorded audio files for every phrase.",
-    "Do not require backend changes or persistence for voice settings unless explicitly requested later.",
-    "Do not implement real-time audio streaming or server-generated audio."
+    "Adding new languages beyond the existing 20.",
+    "Changing the daily streak backend logic or schema (unless strictly required to prevent breakage; not expected).",
+    "Implementing third-party authentication providers (only Internet Identity is supported)."
   ],
   "imageRequirements": {
-    "required": [],
+    "required": [
+      "United Kingdom flag (flag-uk.dim_64x64.png)",
+      "Germany flag (flag-de.dim_64x64.png)",
+      "France flag (flag-fr.dim_64x64.png)",
+      "Spain flag (flag-es.dim_64x64.png)",
+      "Italy flag (flag-it.dim_64x64.png)",
+      "Portugal flag (flag-pt.dim_64x64.png)",
+      "Netherlands flag (flag-nl.dim_64x64.png)",
+      "Sweden flag (flag-sv.dim_64x64.png)",
+      "Norway flag (flag-no.dim_64x64.png)",
+      "Denmark flag (flag-da.dim_64x64.png)",
+      "Finland flag (flag-fi.dim_64x64.png)",
+      "Poland flag (flag-pl.dim_64x64.png)",
+      "Czech Republic flag (flag-cs.dim_64x64.png)",
+      "Hungary flag (flag-hu.dim_64x64.png)",
+      "Romania flag (flag-ro.dim_64x64.png)",
+      "Bulgaria flag (flag-bg.dim_64x64.png)",
+      "Greece flag (flag-el.dim_64x64.png)",
+      "Ukraine flag (flag-uk.dim_64x64.png)",
+      "Ireland flag (flag-ga.dim_64x64.png)",
+      "Slovakia flag (flag-sk.dim_64x64.png)"
+    ],
     "edits": []
+  },
+  "userProfileUpdate": {
+    "goalsToAdd": [],
+    "goalsToRemove": [],
+    "preferencesToAdd": [],
+    "preferencesToRemove": [],
+    "miscToAdd": [],
+    "miscToRemove": [],
+    "fieldsToSet": {},
+    "fieldsToDelete": []
   }
 }

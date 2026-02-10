@@ -1,6 +1,5 @@
 import { languages } from '../lib/languages';
 import { Card, CardContent } from '@/components/ui/card';
-import { Globe2 } from 'lucide-react';
 
 interface HomePageProps {
   onSelectLanguage: (languageCode: string) => void;
@@ -31,8 +30,12 @@ export default function HomePage({ onSelectLanguage }: HomePageProps) {
               onClick={() => onSelectLanguage(language.code)}
             >
               <CardContent className="p-6 flex flex-col items-center text-center">
-                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-3">
-                  <Globe2 className="w-6 h-6 text-primary" />
+                <div className="w-16 h-16 rounded-full overflow-hidden mb-3 flex items-center justify-center bg-muted">
+                  <img 
+                    src={language.flagPath} 
+                    alt={`${language.name} flag`}
+                    className="w-full h-full object-cover"
+                  />
                 </div>
                 <h3 className="font-semibold text-lg mb-1">{language.name}</h3>
                 <p className="text-sm text-muted-foreground">{language.nativeName}</p>

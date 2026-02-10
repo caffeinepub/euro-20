@@ -1,26 +1,39 @@
 {
   "kind": "spec_vs_diff_report",
   "version": "1.0",
-  "generatedAt": "2026-02-10T15:19:47.634Z",
-  "summary": "Diff adds a reusable PronunciationControl and a useSpeechSynthesis hook using the Web Speech API, integrates Play/Stop controls next to each non-empty native lesson item, and introduces a centralized 20-language code→BCP-47 mapping. One acceptance criterion around user-facing unsupported-browser messaging appears not met because the control is hidden when speech is unsupported.",
+  "generatedAt": "2026-02-10T16:16:09.297Z",
+  "summary": "Diff implements CEFR level definitions, level-aware lesson content lookup, a visible level selector in LanguageLearningPage, and flag rendering in HomePage and LanguageSwitcher using centralized language metadata. However, the diff summary does not provide evidence that the required 20 flag image assets were added under frontend/public/assets/generated, and the lessonsSeed.ts content is truncated so full coverage of all 20 languages × 6 levels × 5 sections cannot be verified from the provided diff.",
   "missing_requirements": [
     {
-      "id": "REQ-9",
-      "requirement": "User-facing error/empty states are shown in English if speech is unavailable or fails (e.g., 'Voice pronunciation is not supported in this browser').",
-      "reason": "When speech synthesis is not supported, the hook sets an English error message, but the UI component returns null and renders nothing, so the user does not see the unsupported-browser message.",
+      "id": "REQ-13",
+      "requirement": "Update the seeded lesson dataset to include CEFR levels for all 20 supported languages, using current content as A1 and providing valid content entries for A2, B1, B2, C1, and C2 for every language and section.",
+      "reason": "lessonsSeed.ts is shown only in truncated form and only demonstrates A1 content for English plus placeholder structures; there is no diff evidence confirming that every language code in languages.ts has entries for A1–C2 and that every section resolves for every (language, level).",
       "evidence": [
-        "frontend/src/components/PronunciationControl.tsx (returns null when !isSupported)",
-        "frontend/src/hooks/useSpeechSynthesis.ts (sets error 'Voice pronunciation is not supported in this browser' when unsupported)"
+        "frontend/src/data/lessonsSeed.ts (truncated)",
+        "frontend/src/lib/languages.ts"
+      ]
+    },
+    {
+      "id": "REQ-15",
+      "requirement": "Add a country flag static asset for each of the 20 supported languages under frontend/public/assets/generated and display the flags in the home language grid and language switcher; do not serve flags via backend.",
+      "reason": "UI changes to render flags are present, but the diff summary includes no added/modified files under frontend/public/assets/generated, so the existence of the 20 required bundled flag images cannot be confirmed from the provided diff.",
+      "evidence": [
+        "frontend/src/lib/languages.ts",
+        "frontend/src/pages/HomePage.tsx",
+        "frontend/src/components/LanguageSwitcher.tsx"
       ]
     }
   ],
   "hallucinated_features": [],
-  "confidence": 0.74,
+  "confidence": 0.66,
   "changed_files": [
     "frontend-file-summaries.txt",
-    "frontend/src/components/PronunciationControl.tsx",
-    "frontend/src/hooks/useSpeechSynthesis.ts",
-    "frontend/src/lib/speechSynthesisLanguages.ts",
+    "frontend/src/components/LanguageSwitcher.tsx",
+    "frontend/src/data/lessonsSeed.ts",
+    "frontend/src/lib/cefrLevels.ts",
+    "frontend/src/lib/languages.ts",
+    "frontend/src/lib/lessonContent.ts",
+    "frontend/src/pages/HomePage.tsx",
     "frontend/src/pages/LanguageLearningPage.tsx",
     "project_state.json"
   ]

@@ -3,5 +3,11 @@
   "frontend/src/lib/speechSynthesisLanguages.ts": "Centralized mapping of all 20 supported language codes to BCP-47 language tags for Web Speech API compatibility.",
   "frontend/src/hooks/useSpeechSynthesis.ts": "Custom React hook that wraps the browser's Web Speech API, manages playback state, handles voice selection with language-specific BCP-47 tags, and provides graceful error handling with fallback to default voices.",
   "frontend/src/components/PronunciationControl.tsx": "Reusable pronunciation button component that displays a play/stop icon, integrates with the speech synthesis hook, and shows inline error messages when voice pronunciation fails.",
-  "frontend/src/pages/LanguageLearningPage.tsx": "Main language learning page component that displays lesson content with integrated pronunciation controls next to each native text item, supporting voice playback for all 20 languages."
+  "frontend/src/pages/LanguageLearningPage.tsx": "Main learning page with CEFR level selector tabs, flag display in header, and level-aware lesson content rendering with section navigation.",
+  "frontend/src/lib/cefrLevels.ts": "Defines CEFR level types (A1-C2) with metadata including labels and descriptions for the language learning proficiency framework.",
+  "frontend/src/lib/languages.ts": "Extended language interface to include flag asset paths for all 20 supported European languages with centralized metadata.",
+  "frontend/src/lib/lessonContent.ts": "Updated lesson content retrieval function to support querying by language code, section ID, and CEFR level with graceful fallbacks.",
+  "frontend/src/data/lessonsSeed.ts": "Restructured lesson seed data to support all CEFR levels (A1-C2) for all 20 languages with A1 content populated and placeholder content for higher levels.",
+  "frontend/src/pages/HomePage.tsx": "Language selection page displaying all 20 languages with their respective country flags in a responsive grid layout.",
+  "frontend/src/components/LanguageSwitcher.tsx": "Language switcher dropdown component displaying flags alongside language names for both the trigger and dropdown items."
 }

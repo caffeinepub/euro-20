@@ -6,7 +6,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Languages } from 'lucide-react';
 
 interface LanguageSwitcherProps {
   currentLanguage: string;
@@ -23,7 +22,13 @@ export default function LanguageSwitcher({
     <Select value={currentLanguage} onValueChange={onSelectLanguage}>
       <SelectTrigger className="w-[200px]">
         <div className="flex items-center gap-2">
-          <Languages className="h-4 w-4" />
+          {currentLang && (
+            <img 
+              src={currentLang.flagPath} 
+              alt={`${currentLang.name} flag`}
+              className="w-5 h-5 rounded object-cover"
+            />
+          )}
           <SelectValue>
             {currentLang?.name}
           </SelectValue>
@@ -32,9 +37,16 @@ export default function LanguageSwitcher({
       <SelectContent>
         {languages.map((language) => (
           <SelectItem key={language.code} value={language.code}>
-            <div className="flex flex-col">
-              <span className="font-medium">{language.name}</span>
-              <span className="text-xs text-muted-foreground">{language.nativeName}</span>
+            <div className="flex items-center gap-2">
+              <img 
+                src={language.flagPath} 
+                alt={`${language.name} flag`}
+                className="w-5 h-5 rounded object-cover"
+              />
+              <div className="flex flex-col">
+                <span className="font-medium">{language.name}</span>
+                <span className="text-xs text-muted-foreground">{language.nativeName}</span>
+              </div>
             </div>
           </SelectItem>
         ))}

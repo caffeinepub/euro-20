@@ -1,71 +1,148 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-10T15:19:47.637Z",
+  "generatedAt": "2026-02-10T16:16:09.300Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 3,
-    "implemented": 3,
+    "total": 5,
+    "implemented": 5,
     "items": [
       {
-        "id": "REQ-10",
-        "summary": "Select an appropriate speech synthesis language/voice per supported language by mapping the app’s language codes (from `frontend/src/lib/languages.ts`) to BCP-47 language tags and using those tags when creating utterances.",
+        "id": "REQ-12",
+        "summary": "Add CEFR level support (A1, A2, B1, B2, C1, C2) across the lesson content model so lesson content is addressable by language + CEFR level + section.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/lib/speechSynthesisLanguages.ts",
-          "frontend/src/hooks/useSpeechSynthesis.ts",
-          "frontend/src/components/PronunciationControl.tsx"
-        ],
-        "matchedFiles": [
-          "frontend/src/lib/speechSynthesisLanguages.ts",
-          "frontend/src/hooks/useSpeechSynthesis.ts",
-          "frontend/src/components/PronunciationControl.tsx"
-        ]
-      },
-      {
-        "id": "REQ-11",
-        "summary": "Provide basic playback UX for pronunciation so users can stop/interrupt speech and avoid overlapping audio when multiple items are played.",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/hooks/useSpeechSynthesis.ts",
-          "frontend/src/components/PronunciationControl.tsx",
+          "frontend/src/lib/cefrLevels.ts",
+          "frontend/src/lib/lessonContent.ts",
           "frontend/src/pages/LanguageLearningPage.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/hooks/useSpeechSynthesis.ts",
-          "frontend/src/components/PronunciationControl.tsx",
+          "frontend/src/lib/cefrLevels.ts",
+          "frontend/src/lib/lessonContent.ts",
           "frontend/src/pages/LanguageLearningPage.tsx"
         ]
       },
       {
-        "id": "REQ-9",
-        "summary": "Add a voice pronunciation control for each lesson item in the LanguageLearningPage so users can play audio for the item’s native text using the browser’s built-in text-to-speech (Web Speech API).",
+        "id": "REQ-13",
+        "summary": "Update the seeded lesson dataset to include CEFR levels for all 20 supported languages, using the current content as the A1 level and providing valid (non-crashing) content entries for A2, B1, B2, C1, and C2 for every language and section.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/components/PronunciationControl.tsx",
-          "frontend/src/hooks/useSpeechSynthesis.ts",
-          "frontend/src/pages/LanguageLearningPage.tsx"
+          "frontend/src/data/lessonsSeed.ts",
+          "frontend/src/lib/lessonContent.ts",
+          "frontend/src/lib/languages.ts"
         ],
         "matchedFiles": [
-          "frontend/src/components/PronunciationControl.tsx",
-          "frontend/src/hooks/useSpeechSynthesis.ts",
-          "frontend/src/pages/LanguageLearningPage.tsx"
+          "frontend/src/data/lessonsSeed.ts",
+          "frontend/src/lib/lessonContent.ts",
+          "frontend/src/lib/languages.ts"
+        ]
+      },
+      {
+        "id": "REQ-14",
+        "summary": "Add a CEFR level selector to the language learning experience and wire it so switching levels updates the displayed lesson content while keeping the existing section navigation behavior.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/pages/LanguageLearningPage.tsx",
+          "frontend/src/lib/cefrLevels.ts"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/LanguageLearningPage.tsx",
+          "frontend/src/lib/cefrLevels.ts"
+        ]
+      },
+      {
+        "id": "REQ-15",
+        "summary": "Add a country flag static asset for each of the 20 supported languages and display the flag in the home language grid and in the language switcher dropdown (and/or current selection display).",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/public/assets/generated/flag-uk.dim_64x64.png",
+          "frontend/public/assets/generated/flag-de.dim_64x64.png",
+          "frontend/public/assets/generated/flag-fr.dim_64x64.png",
+          "frontend/public/assets/generated/flag-es.dim_64x64.png",
+          "frontend/public/assets/generated/flag-it.dim_64x64.png",
+          "frontend/public/assets/generated/flag-pt.dim_64x64.png",
+          "frontend/public/assets/generated/flag-nl.dim_64x64.png",
+          "frontend/public/assets/generated/flag-sv.dim_64x64.png",
+          "frontend/public/assets/generated/flag-no.dim_64x64.png",
+          "frontend/public/assets/generated/flag-da.dim_64x64.png",
+          "frontend/public/assets/generated/flag-fi.dim_64x64.png",
+          "frontend/public/assets/generated/flag-pl.dim_64x64.png",
+          "frontend/public/assets/generated/flag-cs.dim_64x64.png",
+          "frontend/public/assets/generated/flag-hu.dim_64x64.png",
+          "frontend/public/assets/generated/flag-ro.dim_64x64.png",
+          "frontend/public/assets/generated/flag-bg.dim_64x64.png",
+          "frontend/public/assets/generated/flag-el.dim_64x64.png",
+          "frontend/public/assets/generated/flag-ga.dim_64x64.png",
+          "frontend/public/assets/generated/flag-sk.dim_64x64.png",
+          "frontend/src/pages/HomePage.tsx",
+          "frontend/src/components/LanguageSwitcher.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/public/assets/generated/flag-uk.dim_64x64.png",
+          "frontend/public/assets/generated/flag-de.dim_64x64.png",
+          "frontend/public/assets/generated/flag-fr.dim_64x64.png",
+          "frontend/public/assets/generated/flag-es.dim_64x64.png",
+          "frontend/public/assets/generated/flag-it.dim_64x64.png",
+          "frontend/public/assets/generated/flag-pt.dim_64x64.png",
+          "frontend/public/assets/generated/flag-nl.dim_64x64.png",
+          "frontend/public/assets/generated/flag-sv.dim_64x64.png",
+          "frontend/public/assets/generated/flag-no.dim_64x64.png",
+          "frontend/public/assets/generated/flag-da.dim_64x64.png",
+          "frontend/public/assets/generated/flag-fi.dim_64x64.png",
+          "frontend/public/assets/generated/flag-pl.dim_64x64.png",
+          "frontend/public/assets/generated/flag-cs.dim_64x64.png",
+          "frontend/public/assets/generated/flag-hu.dim_64x64.png",
+          "frontend/public/assets/generated/flag-ro.dim_64x64.png",
+          "frontend/src/pages/HomePage.tsx",
+          "frontend/src/components/LanguageSwitcher.tsx"
+        ]
+      },
+      {
+        "id": "REQ-16",
+        "summary": "Extend the supported language metadata to include a flag asset reference per language so UI components can consistently render flags from the centralized language definition.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/lib/languages.ts",
+          "frontend/src/pages/HomePage.tsx",
+          "frontend/src/components/LanguageSwitcher.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/lib/languages.ts",
+          "frontend/src/pages/HomePage.tsx",
+          "frontend/src/components/LanguageSwitcher.tsx"
         ]
       }
     ]
   },
   "changedFiles": [
     "build-request.json",
-    "build-template/README.md",
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
-    "frontend/src/components/PronunciationControl.tsx",
-    "frontend/src/hooks/useSpeechSynthesis.ts",
-    "frontend/src/lib/speechSynthesisLanguages.ts",
+    "frontend/public/assets/generated/flag-cs.dim_64x64.png",
+    "frontend/public/assets/generated/flag-da.dim_64x64.png",
+    "frontend/public/assets/generated/flag-de.dim_64x64.png",
+    "frontend/public/assets/generated/flag-es.dim_64x64.png",
+    "frontend/public/assets/generated/flag-fi.dim_64x64.png",
+    "frontend/public/assets/generated/flag-fr.dim_64x64.png",
+    "frontend/public/assets/generated/flag-hu.dim_64x64.png",
+    "frontend/public/assets/generated/flag-it.dim_64x64.png",
+    "frontend/public/assets/generated/flag-nl.dim_64x64.png",
+    "frontend/public/assets/generated/flag-no.dim_64x64.png",
+    "frontend/public/assets/generated/flag-pl.dim_64x64.png",
+    "frontend/public/assets/generated/flag-pt.dim_64x64.png",
+    "frontend/public/assets/generated/flag-ro.dim_64x64.png",
+    "frontend/public/assets/generated/flag-sv.dim_64x64.png",
+    "frontend/public/assets/generated/flag-uk.dim_64x64.png",
+    "frontend/src/components/LanguageSwitcher.tsx",
+    "frontend/src/data/lessonsSeed.ts",
+    "frontend/src/lib/cefrLevels.ts",
+    "frontend/src/lib/languages.ts",
+    "frontend/src/lib/lessonContent.ts",
+    "frontend/src/pages/HomePage.tsx",
     "frontend/src/pages/LanguageLearningPage.tsx",
     "project_state.json",
     "scratch/component-selection.json",

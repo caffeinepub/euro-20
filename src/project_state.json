@@ -1,14 +1,17 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 5,
-  "summary": "Multilingual beginner (A1) European language learning app \"Euro 20\" for students/global learners, covering 20 languages with structured lessons and a clean, distraction-free UI plus daily streak tracking.",
+  "projectStateVersion": 7,
+  "summary": "Multilingual European language learning app \"Euro 20\" for students/global learners, now planning structured CEFR levels (A1–C2) per language, with a clean, distraction-free UI, daily streak tracking, voice pronunciation, and country flags for each language.",
   "architectural_notes": [
     "App name: Euro 20",
     "Target audience: students and global learners; focus on A1-level foundations",
-    "Supported languages: English, German, French, Spanish, Italian, Portuguese, Dutch, Swedish, Norwegian, Danish, Finnish, Polish, Czech, Hungarian, Romanian, Bulgarian, Greek, Ukrainian, Irish, Slovak"
+    "Supported languages: English, German, French, Spanish, Italian, Portuguese, Dutch, Swedish, Norwegian, Danish, Finnish, Polish, Czech, Hungarian, Romanian, Bulgarian, Greek, Ukrainian, Irish, Slovak",
+    "Plan to expand content organization to CEFR levels A1–C2 for each supported language",
+    "Include per-language country flag icons as part of the app’s static UI assets"
   ],
   "known_issues": [],
   "isFixRequest": false,
+  "imageRequirements": "## Required Images\n- United Kingdom flag (flag-uk.dim_64x64.png)\n- Germany flag (flag-de.dim_64x64.png)\n- France flag (flag-fr.dim_64x64.png)\n- Spain flag (flag-es.dim_64x64.png)\n- Italy flag (flag-it.dim_64x64.png)\n- Portugal flag (flag-pt.dim_64x64.png)\n- Netherlands flag (flag-nl.dim_64x64.png)\n- Sweden flag (flag-sv.dim_64x64.png)\n- Norway flag (flag-no.dim_64x64.png)\n- Denmark flag (flag-da.dim_64x64.png)\n- Finland flag (flag-fi.dim_64x64.png)\n- Poland flag (flag-pl.dim_64x64.png)\n- Czech Republic flag (flag-cs.dim_64x64.png)\n- Hungary flag (flag-hu.dim_64x64.png)\n- Romania flag (flag-ro.dim_64x64.png)\n- Bulgaria flag (flag-bg.dim_64x64.png)\n- Greece flag (flag-el.dim_64x64.png)\n- Ukraine flag (flag-uk.dim_64x64.png)\n- Ireland flag (flag-ga.dim_64x64.png)\n- Slovakia flag (flag-sk.dim_64x64.png)",
   "existing_features": [
     {
       "id": "feature-create-the-euro-20-app-home-page-that-lets-users-select-one-of-the-20-supported-languages-english-german-french-spanish-italian-portuguese-dutch-swedish-norwegian-danish-finnish-polish-czech-hungarian-romanian-bulgarian-greek-ukrainian-irish-and-slovak",
@@ -89,6 +92,46 @@
         "REQ-11"
       ],
       "version": 1
+    },
+    {
+      "id": "feature-add-cefr-level-support-a1-a2-b1-b2-c1-c2-across-the-lesson-content-model-so-lesson-content-is-addressable-by-language-cefr-level-section",
+      "title": "Add CEFR level support (A1, A2, B1, B2, C1, C2) across the lesson content model so lesson content is addressable by language + CEFR level + section.",
+      "reqIds": [
+        "REQ-12"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-seeded-lesson-dataset-to-include-cefr-levels-for-all-20-supported-languages-using-the-current-content-as-the-a1-level-and-providing-valid-non-crashing-content-entries-for-a2-b1-b2-c1-and-c2-for-every-language-and-section",
+      "title": "Update the seeded lesson dataset to include CEFR levels for all 20 supported languages, using the current content as the A1 level and providing valid (non-crashing) content entries for A2, B1, B2, C1, and C2 for every language and section.",
+      "reqIds": [
+        "REQ-13"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-cefr-level-selector-to-the-language-learning-experience-and-wire-it-so-switching-levels-updates-the-displayed-lesson-content-while-keeping-the-existing-section-navigation-behavior",
+      "title": "Add a CEFR level selector to the language learning experience and wire it so switching levels updates the displayed lesson content while keeping the existing section navigation behavior.",
+      "reqIds": [
+        "REQ-14"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-country-flag-static-asset-for-each-of-the-20-supported-languages-and-display-the-flag-in-the-home-language-grid-and-in-the-language-switcher-dropdown-and-or-current-selection-display",
+      "title": "Add a country flag static asset for each of the 20 supported languages and display the flag in the home language grid and in the language switcher dropdown (and/or current selection display).",
+      "reqIds": [
+        "REQ-15"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-extend-the-supported-language-metadata-to-include-a-flag-asset-reference-per-language-so-ui-components-can-consistently-render-flags-from-the-centralized-language-definition",
+      "title": "Extend the supported language metadata to include a flag asset reference per language so UI components can consistently render flags from the centralized language definition.",
+      "reqIds": [
+        "REQ-16"
+      ],
+      "version": 1
     }
   ],
   "new_feature_requests": [
@@ -139,6 +182,18 @@
     {
       "id": "AR-12",
       "summary": "Add voice pronunciation (audio) for lesson content across each of the 20 supported languages",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-13",
+      "summary": "Add CEFR proficiency levels (A1, A2, B1, B2, C1, C2) for each of the 20 supported languages and organize lesson content by level",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-14",
+      "summary": "Add a country flag icon for each supported language (UI display on home/language selection and/or language pages) using static image assets",
       "reqIds": [],
       "status": "pending"
     }
