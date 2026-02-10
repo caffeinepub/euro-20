@@ -1,0 +1,68 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-add-a-voice-pronunciation-control-for-each-lesson-item-in-the-languagelearningpage-so-users-can-play-audio-for-the-item-s-native-text-using-the-browser-s-built-in-text-to-speech-web-speech-api",
+      "featureTitle": "Add a voice pronunciation control for each lesson item in the LanguageLearningPage so users can play audio for the item’s native text using the browser’s built-in text-to-speech (Web Speech API).",
+      "files": [
+        "frontend/src/components/PronunciationControl.tsx",
+        "frontend/src/hooks/useSpeechSynthesis.ts",
+        "frontend/src/pages/LanguageLearningPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-9"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-select-an-appropriate-speech-synthesis-language-voice-per-supported-language-by-mapping-the-app-s-language-codes-from-frontend-src-lib-languages-ts-to-bcp-47-language-tags-and-using-those-tags-when-creating-utterances",
+      "featureTitle": "Select an appropriate speech synthesis language/voice per supported language by mapping the app’s language codes (from `frontend/src/lib/languages.ts`) to BCP-47 language tags and using those tags when creating utterances.",
+      "files": [
+        "frontend/src/components/PronunciationControl.tsx",
+        "frontend/src/hooks/useSpeechSynthesis.ts",
+        "frontend/src/lib/speechSynthesisLanguages.ts"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-10"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-provide-basic-playback-ux-for-pronunciation-so-users-can-stop-interrupt-speech-and-avoid-overlapping-audio-when-multiple-items-are-played",
+      "featureTitle": "Provide basic playback UX for pronunciation so users can stop/interrupt speech and avoid overlapping audio when multiple items are played.",
+      "files": [
+        "frontend/src/components/PronunciationControl.tsx",
+        "frontend/src/hooks/useSpeechSynthesis.ts",
+        "frontend/src/pages/LanguageLearningPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-11"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

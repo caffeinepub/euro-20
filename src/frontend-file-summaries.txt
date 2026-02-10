@@ -1,0 +1,7 @@
+{
+  "frontend/src/index.css": "Global CSS file with Tailwind directives and OKLCH-based design tokens for a warm, neutral earth-tone color scheme suitable for an educational language learning app. Includes both light and dark mode color definitions with custom CSS variables for consistent theming.",
+  "frontend/src/lib/speechSynthesisLanguages.ts": "Centralized mapping of all 20 supported language codes to BCP-47 language tags for Web Speech API compatibility.",
+  "frontend/src/hooks/useSpeechSynthesis.ts": "Custom React hook that wraps the browser's Web Speech API, manages playback state, handles voice selection with language-specific BCP-47 tags, and provides graceful error handling with fallback to default voices.",
+  "frontend/src/components/PronunciationControl.tsx": "Reusable pronunciation button component that displays a play/stop icon, integrates with the speech synthesis hook, and shows inline error messages when voice pronunciation fails.",
+  "frontend/src/pages/LanguageLearningPage.tsx": "Main language learning page component that displays lesson content with integrated pronunciation controls next to each native text item, supporting voice playback for all 20 languages."
+}

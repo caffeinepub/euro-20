@@ -1,0 +1,86 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Voice pronunciation controls for lesson items using Web Speech API",
+  "requirements": [
+    {
+      "id": "REQ-9",
+      "summary": "Add a Play pronunciation control next to each lesson item native text in LanguageLearningPage using the browser Web Speech API (no backend).",
+      "acceptanceCriteria": [
+        "Each lesson item that has a non-empty `native` string displays a clearly labeled Play control (e.g., a button) next to the native text.",
+        "Clicking Play speaks the item’s `native` text out loud using `window.speechSynthesis` (no backend calls).",
+        "If an item has no `native` text, no Play control is shown for that item.",
+        "User-facing error/empty states are shown in English if speech is unavailable or fails (e.g., 'Voice pronunciation is not supported in this browser')."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/PronunciationControl.tsx",
+          "operation": "create",
+          "description": "Create a reusable pronunciation UI control (Play/Stop + inline English error messaging) that calls a shared Web Speech hook and can be placed next to the lesson item native text. Use the existing shadcn-ui Button styling where appropriate (import-only; do not modify anything under frontend/src/components/ui). Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/useSpeechSynthesis.ts",
+          "operation": "create",
+          "description": "Implement a frontend-only hook wrapping `window.speechSynthesis` to (1) detect support, (2) speak provided text, and (3) surface English error states when speech is unavailable or fails."
+        },
+        {
+          "path": "frontend/src/pages/LanguageLearningPage.tsx",
+          "operation": "modify",
+          "description": "Wire the new PronunciationControl into the lesson item rendering so each item with a non-empty `native` string shows a clearly labeled Play control next to the native text, and items without `native` show no control."
+        }
+      ]
+    },
+    {
+      "id": "REQ-10",
+      "summary": "Centralize mapping of supported language codes to BCP-47 tags and apply the mapped tag to speech utterances with graceful fallback when voices are unavailable.",
+      "acceptanceCriteria": [
+        "A centralized mapping exists for all 20 supported language codes to BCP-47 tags (e.g., de->de-DE, fr->fr-FR, etc.).",
+        "When Play is pressed, the utterance uses the mapped language tag (`utterance.lang = ...`) for the currently selected language.",
+        "If no matching voice is available for the mapped language tag, the app falls back gracefully (e.g., uses default voice) and remains functional."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/lib/speechSynthesisLanguages.ts",
+          "operation": "create",
+          "description": "Add a centralized map of the 20 language codes from frontend/src/lib/languages.ts to BCP-47 language tags, exported for use by pronunciation features."
+        },
+        {
+          "path": "frontend/src/hooks/useSpeechSynthesis.ts",
+          "operation": "modify",
+          "description": "Apply the language-code-to-BCP-47 mapping when creating utterances (set `utterance.lang`), attempt to select a matching voice when available, and fall back to the default voice without breaking playback when no match exists."
+        },
+        {
+          "path": "frontend/src/components/PronunciationControl.tsx",
+          "operation": "modify",
+          "description": "Pass the currently selected app language code into the Web Speech hook so the utterance uses the mapped BCP-47 tag for that language and remains functional with fallback behavior."
+        }
+      ]
+    },
+    {
+      "id": "REQ-11",
+      "summary": "Provide playback UX that cancels current speech before starting new audio, supports Stop/interrupt, and prevents overlapping/queued utterances.",
+      "acceptanceCriteria": [
+        "Starting a new pronunciation cancels any currently playing speech before beginning the new utterance.",
+        "A Stop control is available while speech is playing (or Play toggles to Stop), and Stop immediately cancels playback.",
+        "The UI prevents repeated rapid clicks from causing overlapping or queued utterances (e.g., by cancelling before speaking and reflecting playing state)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/hooks/useSpeechSynthesis.ts",
+          "operation": "modify",
+          "description": "Add shared playback state management: cancel any active speech before speaking a new utterance, expose a `stop()` action that immediately cancels, and track which item is currently playing to avoid overlapping/queued utterances under rapid interactions."
+        },
+        {
+          "path": "frontend/src/components/PronunciationControl.tsx",
+          "operation": "modify",
+          "description": "Implement Play/Stop toggle UX based on the shared playback state and ensure rapid clicks cannot create overlapping/queued utterances (by relying on the hook’s cancel-before-speak behavior and reflecting active playing state in the UI). Use existing shadcn-ui Button styling where appropriate (import-only; do not modify anything under frontend/src/components/ui). Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/LanguageLearningPage.tsx",
+          "operation": "modify",
+          "description": "Ensure each lesson item's pronunciation control is keyed/identified so shared playback state can correctly stop current playback when another item's Play is pressed."
+        }
+      ]
+    }
+  ]
+}

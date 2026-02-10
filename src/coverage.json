@@ -1,0 +1,75 @@
+{
+  "kind": "coverage_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-10T15:19:47.637Z",
+  "sources": {
+    "buildRequest": true,
+    "implementationPlan": true
+  },
+  "requirements": {
+    "total": 3,
+    "implemented": 3,
+    "items": [
+      {
+        "id": "REQ-10",
+        "summary": "Select an appropriate speech synthesis language/voice per supported language by mapping the app’s language codes (from `frontend/src/lib/languages.ts`) to BCP-47 language tags and using those tags when creating utterances.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/lib/speechSynthesisLanguages.ts",
+          "frontend/src/hooks/useSpeechSynthesis.ts",
+          "frontend/src/components/PronunciationControl.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/lib/speechSynthesisLanguages.ts",
+          "frontend/src/hooks/useSpeechSynthesis.ts",
+          "frontend/src/components/PronunciationControl.tsx"
+        ]
+      },
+      {
+        "id": "REQ-11",
+        "summary": "Provide basic playback UX for pronunciation so users can stop/interrupt speech and avoid overlapping audio when multiple items are played.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/hooks/useSpeechSynthesis.ts",
+          "frontend/src/components/PronunciationControl.tsx",
+          "frontend/src/pages/LanguageLearningPage.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/hooks/useSpeechSynthesis.ts",
+          "frontend/src/components/PronunciationControl.tsx",
+          "frontend/src/pages/LanguageLearningPage.tsx"
+        ]
+      },
+      {
+        "id": "REQ-9",
+        "summary": "Add a voice pronunciation control for each lesson item in the LanguageLearningPage so users can play audio for the item’s native text using the browser’s built-in text-to-speech (Web Speech API).",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/components/PronunciationControl.tsx",
+          "frontend/src/hooks/useSpeechSynthesis.ts",
+          "frontend/src/pages/LanguageLearningPage.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/components/PronunciationControl.tsx",
+          "frontend/src/hooks/useSpeechSynthesis.ts",
+          "frontend/src/pages/LanguageLearningPage.tsx"
+        ]
+      }
+    ]
+  },
+  "changedFiles": [
+    "build-request.json",
+    "build-template/README.md",
+    "feature_evidence.json",
+    "frontend-file-summaries.txt",
+    "frontend-implementation-plan.json",
+    "frontend/src/components/PronunciationControl.tsx",
+    "frontend/src/hooks/useSpeechSynthesis.ts",
+    "frontend/src/lib/speechSynthesisLanguages.ts",
+    "frontend/src/pages/LanguageLearningPage.tsx",
+    "project_state.json",
+    "scratch/component-selection.json",
+    "spec.md",
+    "spec_vs_diff_report.json"
+  ]
+}
