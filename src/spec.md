@@ -1,13 +1,11 @@
 # Specification
 
 ## Summary
-**Goal:** Add CEFR level support (A1–C2) to lessons for all supported languages and show a country flag for each language throughout the UI.
+**Goal:** Fix the root causes of the current Internet Computer build/deployment failure, eliminate browser crashes from Node-style env var usage, and expose minimal in-app error messages for auth/actor/streak failures.
 
 **Planned changes:**
-- Add a CEFR level list (A1, A2, B1, B2, C1, C2) and update lesson content lookup to be keyed by (languageCode, levelId, sectionId).
-- Update the seeded lesson dataset so every supported language has non-crashing content entries for every CEFR level and each existing section (alphabet, greetings, numbers, common, sentences).
-- Add a CEFR level selector to the language learning page; switching levels updates the displayed content while keeping section navigation working.
-- Add a static flag asset per supported language and extend the centralized language metadata to reference its flag asset.
-- Display flags on the HomePage language grid and in the LanguageSwitcher (dropdown list and current selection display), using the centralized language metadata.
+- Identify and fix the specific build/deploy error so the project cleanly builds and deploys on the Internet Computer.
+- Add a safe frontend shim/build configuration so references like `process.env.*` (including `process.env.II_URL`) do not crash in the browser, without modifying immutable hook files, while keeping Internet Identity login working.
+- Add minimal UI-visible English error messaging for failed Internet Identity initialization/login, actor initialization, and streak mutation failures (not console-only), keeping the app usable after errors.
 
-**User-visible outcome:** Users can choose a language and a CEFR level (A1–C2) to view lesson content by section, and they will see each language represented with its flag on the home grid and in the language switcher.
+**User-visible outcome:** The app builds and deploys successfully; the frontend no longer crashes due to missing `process` in the browser; and users see clear English error messages in the UI when authentication, actor setup, or streak updates fail.

@@ -1,143 +1,77 @@
 {
   "kind": "build_request",
-  "title": "Add CEFR levels (A1–C2) for all languages and display a flag per language",
-  "priority": "normal",
+  "title": "Fix deployment/build failure",
+  "priority": "high",
   "requirements": [
     {
-      "id": "REQ-12",
-      "text": "Add CEFR level support (A1, A2, B1, B2, C1, C2) across the lesson content model so lesson content is addressable by language + CEFR level + section.",
-      "target": "frontend",
+      "id": "REQ-1",
+      "text": "Identify the exact build/deploy failure causing the deployment error and fix the root cause so the project builds and deploys successfully on the Internet Computer.",
+      "target": "both",
       "source": {
         "messageIds": [
-          "msg-5"
+          "recent-messages"
         ],
         "quotes": [
-          "ok great now make all 20 languages have a1 a2 b1 b2 and c1 c2 levels also add the countries flag for every langage"
+          "🙏 Deployment encountered an error",
+          "can you fix the error"
         ]
       },
       "acceptanceCriteria": [
-        "A CEFR level list exists in the frontend and includes exactly: A1, A2, B1, B2, C1, C2.",
-        "Lesson content lookup supports querying by (languageCode, levelId, sectionId).",
-        "Existing A1 content continues to render correctly for all languages (no regressions vs current A1-only behavior)."
+        "A clean build completes without errors.",
+        "A deploy completes successfully (no deployment error).",
+        "The underlying root cause is fixed (not just suppressed), and the fix is committed in code/config."
       ]
     },
     {
-      "id": "REQ-13",
-      "text": "Update the seeded lesson dataset to include CEFR levels for all 20 supported languages, using the current content as the A1 level and providing valid (non-crashing) content entries for A2, B1, B2, C1, and C2 for every language and section.",
+      "id": "REQ-2",
+      "text": "Eliminate any frontend build/runtime crash caused by referencing Node-style environment variables (e.g., `process.env.*`) in the browser bundle (notably `process.env.II_URL` used by the Internet Identity hook) without editing immutable files; implement a safe shim or build configuration so the app runs in the browser and Internet Identity login continues to function.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-5"
+          "recent-messages"
         ],
         "quotes": [
-          "make all 20 languages have a1 a2 b1 b2 and c1 c2 levels"
+          "🙏 Deployment encountered an error"
         ]
       },
       "acceptanceCriteria": [
-        "For each language code in frontend/src/lib/languages.ts, the seed dataset contains entries for levels A1, A2, B1, B2, C1, C2.",
-        "For each (language, level), all existing sections (alphabet, greetings, numbers, common, sentences) resolve to a LessonContent object with an items array (can be empty if content is not yet available).",
-        "The app never shows 'Content not available for this language/section' for any supported (language, level, section) combination."
+        "The frontend bundle does not throw `process is not defined` (or equivalent) at build time or at runtime.",
+        "Internet Identity login flow still works and uses a valid identity provider URL.",
+        "No files under `frontend/src/hooks/useInternetIdentity.ts` (immutable) are modified."
       ]
     },
     {
-      "id": "REQ-14",
-      "text": "Add a CEFR level selector to the language learning experience and wire it so switching levels updates the displayed lesson content while keeping the existing section navigation behavior.",
+      "id": "REQ-3",
+      "text": "Add a minimal, user-facing error surface for failed authentication/actor initialization and failed streak mutations so errors that would otherwise appear only in console logs are visible in the UI in English.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-5"
+          "recent-messages"
         ],
         "quotes": [
-          "make all 20 languages have a1 a2 b1 b2 and c1 c2 levels"
+          "can you fix the error"
         ]
       },
       "acceptanceCriteria": [
-        "LanguageLearningPage provides a visible control to select A1, A2, B1, B2, C1, C2.",
-        "Changing the selected level updates the rendered introduction and items for the current section.",
-        "Section navigation continues to work within the selected level.",
-        "User-facing text added for the level selector is in English."
-      ]
-    },
-    {
-      "id": "REQ-15",
-      "text": "Add a country flag static asset for each of the 20 supported languages and display the flag in the home language grid and in the language switcher dropdown (and/or current selection display).",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-5"
-        ],
-        "quotes": [
-          "also add the countries flag for every langage"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Each supported language has a corresponding flag image available as a frontend static asset under frontend/public/assets/generated.",
-        "HomePage language cards display each language’s flag instead of the generic globe icon (or alongside it) without layout breakage on mobile and desktop.",
-        "LanguageSwitcher shows each language’s flag in the dropdown list and for the currently selected language.",
-        "No flag images are served via the backend."
-      ]
-    },
-    {
-      "id": "REQ-16",
-      "text": "Extend the supported language metadata to include a flag asset reference per language so UI components can consistently render flags from the centralized language definition.",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-5"
-        ],
-        "quotes": [
-          "add the countries flag for every langage"
-        ]
-      },
-      "acceptanceCriteria": [
-        "frontend/src/lib/languages.ts exports language entries that include a stable reference to the flag asset for that language.",
-        "All flag rendering in HomePage/LanguageSwitcher uses the centralized language metadata rather than hardcoded per-component mappings."
+        "When Internet Identity initialization/login fails, the UI displays a clear English error message (no blank/unclear state).",
+        "When actor creation or streak mutations fail, the UI displays a clear English error message and the app remains usable.",
+        "Errors are not only logged to the console; the user can see them in-app."
       ]
     }
   ],
   "constraints": [
-    "Do not edit files in frontend immutablePaths (e.g., frontend/src/hooks/useInternetIdentity.ts(x), frontend/src/hooks/useActor.ts, frontend/src/main.tsx, frontend/src/components/ui).",
-    "Backend must remain a single Motoko actor (no new backend canisters/services).",
-    "Do not fetch flag images from third-party APIs/CDNs at runtime; use bundled static assets."
+    "Backend must remain a single-actor Motoko canister; keep all logic in `backend/main.mo`.",
+    "Only create `backend/migration.mo` if state schema changes require it (conditional migration policy).",
+    "Do not edit immutable frontend paths: `frontend/src/hooks/useInternetIdentity.ts`, `frontend/src/hooks/useInternetIdentity.tsx`, `frontend/src/hooks/useActor.ts`, `frontend/src/main.tsx`, `frontend/src/components/ui`.",
+    "Use English for any user-facing text."
   ],
   "nonGoals": [
-    "Adding new languages beyond the existing 20.",
-    "Changing the daily streak backend logic or schema (unless strictly required to prevent breakage; not expected).",
-    "Implementing third-party authentication providers (only Internet Identity is supported)."
+    "Adding new product features unrelated to fixing the deployment/build error.",
+    "Changing authentication provider away from Internet Identity.",
+    "Introducing external databases, third-party auth providers, or non-supported backend technologies."
   ],
   "imageRequirements": {
-    "required": [
-      "United Kingdom flag (flag-uk.dim_64x64.png)",
-      "Germany flag (flag-de.dim_64x64.png)",
-      "France flag (flag-fr.dim_64x64.png)",
-      "Spain flag (flag-es.dim_64x64.png)",
-      "Italy flag (flag-it.dim_64x64.png)",
-      "Portugal flag (flag-pt.dim_64x64.png)",
-      "Netherlands flag (flag-nl.dim_64x64.png)",
-      "Sweden flag (flag-sv.dim_64x64.png)",
-      "Norway flag (flag-no.dim_64x64.png)",
-      "Denmark flag (flag-da.dim_64x64.png)",
-      "Finland flag (flag-fi.dim_64x64.png)",
-      "Poland flag (flag-pl.dim_64x64.png)",
-      "Czech Republic flag (flag-cs.dim_64x64.png)",
-      "Hungary flag (flag-hu.dim_64x64.png)",
-      "Romania flag (flag-ro.dim_64x64.png)",
-      "Bulgaria flag (flag-bg.dim_64x64.png)",
-      "Greece flag (flag-el.dim_64x64.png)",
-      "Ukraine flag (flag-uk.dim_64x64.png)",
-      "Ireland flag (flag-ga.dim_64x64.png)",
-      "Slovakia flag (flag-sk.dim_64x64.png)"
-    ],
+    "required": [],
     "edits": []
-  },
-  "userProfileUpdate": {
-    "goalsToAdd": [],
-    "goalsToRemove": [],
-    "preferencesToAdd": [],
-    "preferencesToRemove": [],
-    "miscToAdd": [],
-    "miscToRemove": [],
-    "fieldsToSet": {},
-    "fieldsToDelete": []
   }
 }

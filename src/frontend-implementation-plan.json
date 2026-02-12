@@ -1,221 +1,88 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "CEFR levels + flags for all supported languages (frontend-only)",
+  "title": "Fix frontend build/runtime failures and add user-visible error messaging",
   "requirements": [
     {
-      "id": "REQ-12",
-      "summary": "Add CEFR levels to the lesson content model and support lookup by (languageCode, levelId, sectionId) without regressing existing A1 rendering.",
+      "id": "REQ-1",
+      "summary": "Fix the frontend-side root causes of the build/deploy failure so the project can build and deploy successfully on the Internet Computer.",
       "acceptanceCriteria": [
-        "A CEFR level list exists in the frontend and includes exactly: A1, A2, B1, B2, C1, C2.",
-        "Lesson content lookup supports querying by (languageCode, levelId, sectionId).",
-        "Existing A1 content continues to render correctly for all languages (no regressions vs current A1-only behavior)."
+        "A clean build completes without errors.",
+        "A deploy completes successfully (no deployment error).",
+        "The underlying root cause is fixed (not just suppressed), and the fix is committed in code/config."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/lib/cefrLevels.ts",
+          "path": "frontend/src/shims/processEnv.ts",
           "operation": "create",
-          "description": "Create a centralized CEFR level definition (exactly A1, A2, B1, B2, C1, C2) with stable level IDs/types for use across the app."
+          "description": "Add a browser-safe global shim that defines `globalThis.process` and `process.env` with a sane default for `II_URL` (and optional override via `globalThis`), so the production browser bundle does not crash when `process.env.*` is referenced."
         },
         {
-          "path": "frontend/src/lib/lessonContent.ts",
-          "operation": "modify",
-          "description": "Update lesson content retrieval to accept (languageCode, levelId, sectionId) and return a safe LessonContent object for any supported combination, using A1 as the default/fallback behavior to avoid regressions."
+          "path": "frontend/src/types/process-env.d.ts",
+          "operation": "create",
+          "description": "Add TypeScript global type declarations for `process` / `process.env` used by the shim and immutable auth hook so the frontend build typechecks cleanly."
         },
         {
-          "path": "frontend/src/pages/LanguageLearningPage.tsx",
+          "path": "frontend/src/App.tsx",
           "operation": "modify",
-          "description": "Update the page to request lesson content via the new (languageCode, levelId, sectionId) lookup, ensuring the default selected level preserves current A1 rendering."
+          "description": "Ensure the `process.env` shim is imported before any components/hooks can access `process.env.*`, and make the footer link construction safe in environments where `window` may not be available during build-time evaluation."
         }
       ]
     },
     {
-      "id": "REQ-13",
-      "summary": "Extend the seeded lesson dataset to include CEFR levels A1–C2 for all 20 supported languages and all existing sections, ensuring no missing-content crashes or 'not available' messages.",
+      "id": "REQ-2",
+      "summary": "Prevent `process is not defined` crashes caused by Node-style env references in the browser bundle while keeping Internet Identity login functional without modifying immutable hooks.",
       "acceptanceCriteria": [
-        "For each language code in frontend/src/lib/languages.ts, the seed dataset contains entries for levels A1, A2, B1, B2, C1, C2.",
-        "For each (language, level), all existing sections (alphabet, greetings, numbers, common, sentences) resolve to a LessonContent object with an items array (can be empty if content is not yet available).",
-        "The app never shows 'Content not available for this language/section' for any supported (language, level, section) combination."
+        "The frontend bundle does not throw `process is not defined` (or equivalent) at build time or at runtime.",
+        "Internet Identity login flow still works and uses a valid identity provider URL.",
+        "No files under `frontend/src/hooks/useInternetIdentity.ts` (immutable) are modified."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/data/lessonsSeed.ts",
+          "path": "frontend/src/shims/processEnv.ts",
           "operation": "modify",
-          "description": "Reshape the seed data to be keyed by language -> CEFR level -> section. Populate A1 with the current content, and ensure A2/B1/B2/C1/C2 exist for every language+section with valid LessonContent objects (items array present, can be empty) so the UI never falls back to 'Content not available' messages."
+          "description": "Implement/adjust the shim so `process.env.II_URL` resolves to a valid identity provider URL (default to the official Internet Identity URL) and cannot throw at runtime; do not change `frontend/src/hooks/useInternetIdentity.ts`."
         },
         {
-          "path": "frontend/src/lib/lessonContent.ts",
+          "path": "frontend/src/App.tsx",
           "operation": "modify",
-          "description": "Remove/avoid user-visible 'Content not available for this language/section' fallbacks for supported combinations by returning a valid empty/coming-soon LessonContent when needed (while still allowing A1 content to render as-is)."
-        },
-        {
-          "path": "frontend/src/lib/languages.ts",
-          "operation": "modify",
-          "description": "Ensure the seed dataset coverage logic aligns with the exported set of 20 supported language codes so every language listed has A1–C2 data for all sections."
+          "description": "Wire the shim into the app by importing it at the top-level (in a non-immutable file) so the immutable Internet Identity hook can safely read `process.env.II_URL`."
         }
       ]
     },
     {
-      "id": "REQ-14",
-      "summary": "Add a CEFR level selector to the language learning experience and wire it to update lesson content while keeping section navigation behavior unchanged.",
+      "id": "REQ-3",
+      "summary": "Show clear in-app English error messages for authentication/actor initialization failures and streak mutation failures (not console-only).",
       "acceptanceCriteria": [
-        "LanguageLearningPage provides a visible control to select A1, A2, B1, B2, C1, C2.",
-        "Changing the selected level updates the rendered introduction and items for the current section.",
-        "Section navigation continues to work within the selected level.",
-        "User-facing text added for the level selector is in English."
+        "When Internet Identity initialization/login fails, the UI displays a clear English error message (no blank/unclear state).",
+        "When actor creation or streak mutations fail, the UI displays a clear English error message and the app remains usable.",
+        "Errors are not only logged to the console; the user can see them in-app."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/pages/LanguageLearningPage.tsx",
+          "path": "frontend/src/components/AuthErrorBanner.tsx",
+          "operation": "create",
+          "description": "Create a minimal banner/notice component that reads `isLoginError` and `loginError` from `useInternetIdentity()` and renders a clear English message in the UI when authentication initialization/login fails."
+        },
+        {
+          "path": "frontend/src/components/AppHeader.tsx",
           "operation": "modify",
-          "description": "Add local state for the selected CEFR level (default A1) and render a visible level selector control. Wire selection changes to re-run lesson content lookup for the current section while preserving existing section navigation behavior and using English UI text."
+          "description": "Render the new `AuthErrorBanner` in the header area so authentication errors are visible without requiring users to open the console."
         },
         {
-          "path": "frontend/src/lib/cefrLevels.ts",
+          "path": "frontend/src/components/CompleteSectionButton.tsx",
           "operation": "modify",
-          "description": "Expose helper data (e.g., ordered level list and labels) to drive the level selector UI consistently across the app."
-        }
-      ]
-    },
-    {
-      "id": "REQ-15",
-      "summary": "Add bundled static flag assets for each supported language and display flags in the HomePage language grid and LanguageSwitcher.",
-      "acceptanceCriteria": [
-        "Each supported language has a corresponding flag image available as a frontend static asset under frontend/public/assets/generated.",
-        "HomePage language cards display each language’s flag instead of the generic globe icon (or alongside it) without layout breakage on mobile and desktop.",
-        "LanguageSwitcher shows each language’s flag in the dropdown list and for the currently selected language.",
-        "No flag images are served via the backend."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/public/assets/generated/flag-uk.dim_64x64.png",
-          "operation": "create",
-          "description": "Add bundled static flag asset at frontend/public/assets/generated/flag-uk.dim_64x64.png."
+          "description": "Surface streak mutation failures in-app by rendering a small English error message when `useRecordCompletion()` fails (in addition to any existing toast), while keeping the rest of the app usable."
         },
         {
-          "path": "frontend/public/assets/generated/flag-de.dim_64x64.png",
-          "operation": "create",
-          "description": "Add bundled static flag asset at frontend/public/assets/generated/flag-de.dim_64x64.png."
-        },
-        {
-          "path": "frontend/public/assets/generated/flag-fr.dim_64x64.png",
-          "operation": "create",
-          "description": "Add bundled static flag asset at frontend/public/assets/generated/flag-fr.dim_64x64.png."
-        },
-        {
-          "path": "frontend/public/assets/generated/flag-es.dim_64x64.png",
-          "operation": "create",
-          "description": "Add bundled static flag asset at frontend/public/assets/generated/flag-es.dim_64x64.png."
-        },
-        {
-          "path": "frontend/public/assets/generated/flag-it.dim_64x64.png",
-          "operation": "create",
-          "description": "Add bundled static flag asset at frontend/public/assets/generated/flag-it.dim_64x64.png."
-        },
-        {
-          "path": "frontend/public/assets/generated/flag-pt.dim_64x64.png",
-          "operation": "create",
-          "description": "Add bundled static flag asset at frontend/public/assets/generated/flag-pt.dim_64x64.png."
-        },
-        {
-          "path": "frontend/public/assets/generated/flag-nl.dim_64x64.png",
-          "operation": "create",
-          "description": "Add bundled static flag asset at frontend/public/assets/generated/flag-nl.dim_64x64.png."
-        },
-        {
-          "path": "frontend/public/assets/generated/flag-sv.dim_64x64.png",
-          "operation": "create",
-          "description": "Add bundled static flag asset at frontend/public/assets/generated/flag-sv.dim_64x64.png."
-        },
-        {
-          "path": "frontend/public/assets/generated/flag-no.dim_64x64.png",
-          "operation": "create",
-          "description": "Add bundled static flag asset at frontend/public/assets/generated/flag-no.dim_64x64.png."
-        },
-        {
-          "path": "frontend/public/assets/generated/flag-da.dim_64x64.png",
-          "operation": "create",
-          "description": "Add bundled static flag asset at frontend/public/assets/generated/flag-da.dim_64x64.png."
-        },
-        {
-          "path": "frontend/public/assets/generated/flag-fi.dim_64x64.png",
-          "operation": "create",
-          "description": "Add bundled static flag asset at frontend/public/assets/generated/flag-fi.dim_64x64.png."
-        },
-        {
-          "path": "frontend/public/assets/generated/flag-pl.dim_64x64.png",
-          "operation": "create",
-          "description": "Add bundled static flag asset at frontend/public/assets/generated/flag-pl.dim_64x64.png."
-        },
-        {
-          "path": "frontend/public/assets/generated/flag-cs.dim_64x64.png",
-          "operation": "create",
-          "description": "Add bundled static flag asset at frontend/public/assets/generated/flag-cs.dim_64x64.png."
-        },
-        {
-          "path": "frontend/public/assets/generated/flag-hu.dim_64x64.png",
-          "operation": "create",
-          "description": "Add bundled static flag asset at frontend/public/assets/generated/flag-hu.dim_64x64.png."
-        },
-        {
-          "path": "frontend/public/assets/generated/flag-ro.dim_64x64.png",
-          "operation": "create",
-          "description": "Add bundled static flag asset at frontend/public/assets/generated/flag-ro.dim_64x64.png."
-        },
-        {
-          "path": "frontend/public/assets/generated/flag-bg.dim_64x64.png",
-          "operation": "create",
-          "description": "Add bundled static flag asset at frontend/public/assets/generated/flag-bg.dim_64x64.png."
-        },
-        {
-          "path": "frontend/public/assets/generated/flag-el.dim_64x64.png",
-          "operation": "create",
-          "description": "Add bundled static flag asset at frontend/public/assets/generated/flag-el.dim_64x64.png."
-        },
-        {
-          "path": "frontend/public/assets/generated/flag-ga.dim_64x64.png",
-          "operation": "create",
-          "description": "Add bundled static flag asset at frontend/public/assets/generated/flag-ga.dim_64x64.png."
-        },
-        {
-          "path": "frontend/public/assets/generated/flag-sk.dim_64x64.png",
-          "operation": "create",
-          "description": "Add bundled static flag asset at frontend/public/assets/generated/flag-sk.dim_64x64.png."
-        },
-        {
-          "path": "frontend/src/pages/HomePage.tsx",
+          "path": "frontend/src/components/StreakPanel.tsx",
           "operation": "modify",
-          "description": "Update language cards to render the flag image for each language (sourced from centralized language metadata) instead of the generic globe icon, ensuring responsive layout remains intact on mobile and desktop."
+          "description": "Handle streak data loading failures by showing a clear English error state (instead of an unclear/blank panel) when the streak query fails."
         },
         {
-          "path": "frontend/src/components/LanguageSwitcher.tsx",
+          "path": "frontend/src/hooks/useQueries.ts",
           "operation": "modify",
-          "description": "Update the switcher trigger and dropdown items to display each language’s flag image (sourced from centralized language metadata) for both the current selection and the dropdown list, using only bundled static assets."
-        }
-      ]
-    },
-    {
-      "id": "REQ-16",
-      "summary": "Extend supported language metadata to include a stable flag asset reference and ensure UI uses the centralized metadata for all flag rendering.",
-      "acceptanceCriteria": [
-        "frontend/src/lib/languages.ts exports language entries that include a stable reference to the flag asset for that language.",
-        "All flag rendering in HomePage/LanguageSwitcher uses the centralized language metadata rather than hardcoded per-component mappings."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/lib/languages.ts",
-          "operation": "modify",
-          "description": "Extend the Language interface and language entries to include a stable flag asset reference (pointing to the bundled files under frontend/public/assets/generated) for all 20 supported languages."
-        },
-        {
-          "path": "frontend/src/pages/HomePage.tsx",
-          "operation": "modify",
-          "description": "Refactor flag rendering to read the flag asset reference directly from the centralized languages metadata (no per-component hardcoded mappings)."
-        },
-        {
-          "path": "frontend/src/components/LanguageSwitcher.tsx",
-          "operation": "modify",
-          "description": "Refactor flag rendering to read the flag asset reference directly from the centralized languages metadata (no per-component hardcoded mappings)."
+          "description": "Ensure streak-related query/mutation errors are propagated with meaningful English messages (so UI components can display them), without changing immutable auth/actor hooks."
         }
       ]
     }

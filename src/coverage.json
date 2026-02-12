@@ -1,118 +1,60 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-10T16:16:09.300Z",
+  "generatedAt": "2026-02-11T10:41:48.592Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 5,
-    "implemented": 5,
+    "total": 3,
+    "implemented": 3,
     "items": [
       {
-        "id": "REQ-12",
-        "summary": "Add CEFR level support (A1, A2, B1, B2, C1, C2) across the lesson content model so lesson content is addressable by language + CEFR level + section.",
+        "id": "REQ-1",
+        "summary": "Identify the exact build/deploy failure causing the deployment error and fix the root cause so the project builds and deploys successfully on the Internet Computer.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/lib/cefrLevels.ts",
-          "frontend/src/lib/lessonContent.ts",
-          "frontend/src/pages/LanguageLearningPage.tsx"
+          "frontend/src/shims/processEnv.ts",
+          "frontend/src/types/process-env.d.ts",
+          "frontend/src/App.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/lib/cefrLevels.ts",
-          "frontend/src/lib/lessonContent.ts",
-          "frontend/src/pages/LanguageLearningPage.tsx"
+          "frontend/src/shims/processEnv.ts",
+          "frontend/src/types/process-env.d.ts",
+          "frontend/src/App.tsx"
         ]
       },
       {
-        "id": "REQ-13",
-        "summary": "Update the seeded lesson dataset to include CEFR levels for all 20 supported languages, using the current content as the A1 level and providing valid (non-crashing) content entries for A2, B1, B2, C1, and C2 for every language and section.",
+        "id": "REQ-2",
+        "summary": "Eliminate any frontend build/runtime crash caused by referencing Node-style environment variables (e.g., `process.env.*`) in the browser bundle (notably `process.env.II_URL` used by the Internet Identity hook) without editing immutable files; implement a safe shim or build configuration so the app runs in the browser and Internet Identity login continues to function.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/data/lessonsSeed.ts",
-          "frontend/src/lib/lessonContent.ts",
-          "frontend/src/lib/languages.ts"
+          "frontend/src/shims/processEnv.ts",
+          "frontend/src/App.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/data/lessonsSeed.ts",
-          "frontend/src/lib/lessonContent.ts",
-          "frontend/src/lib/languages.ts"
+          "frontend/src/shims/processEnv.ts",
+          "frontend/src/App.tsx"
         ]
       },
       {
-        "id": "REQ-14",
-        "summary": "Add a CEFR level selector to the language learning experience and wire it so switching levels updates the displayed lesson content while keeping the existing section navigation behavior.",
+        "id": "REQ-3",
+        "summary": "Add a minimal, user-facing error surface for failed authentication/actor initialization and failed streak mutations so errors that would otherwise appear only in console logs are visible in the UI in English.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/pages/LanguageLearningPage.tsx",
-          "frontend/src/lib/cefrLevels.ts"
+          "frontend/src/components/AuthErrorBanner.tsx",
+          "frontend/src/components/AppHeader.tsx",
+          "frontend/src/components/CompleteSectionButton.tsx",
+          "frontend/src/components/StreakPanel.tsx",
+          "frontend/src/hooks/useQueries.ts"
         ],
         "matchedFiles": [
-          "frontend/src/pages/LanguageLearningPage.tsx",
-          "frontend/src/lib/cefrLevels.ts"
-        ]
-      },
-      {
-        "id": "REQ-15",
-        "summary": "Add a country flag static asset for each of the 20 supported languages and display the flag in the home language grid and in the language switcher dropdown (and/or current selection display).",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/public/assets/generated/flag-uk.dim_64x64.png",
-          "frontend/public/assets/generated/flag-de.dim_64x64.png",
-          "frontend/public/assets/generated/flag-fr.dim_64x64.png",
-          "frontend/public/assets/generated/flag-es.dim_64x64.png",
-          "frontend/public/assets/generated/flag-it.dim_64x64.png",
-          "frontend/public/assets/generated/flag-pt.dim_64x64.png",
-          "frontend/public/assets/generated/flag-nl.dim_64x64.png",
-          "frontend/public/assets/generated/flag-sv.dim_64x64.png",
-          "frontend/public/assets/generated/flag-no.dim_64x64.png",
-          "frontend/public/assets/generated/flag-da.dim_64x64.png",
-          "frontend/public/assets/generated/flag-fi.dim_64x64.png",
-          "frontend/public/assets/generated/flag-pl.dim_64x64.png",
-          "frontend/public/assets/generated/flag-cs.dim_64x64.png",
-          "frontend/public/assets/generated/flag-hu.dim_64x64.png",
-          "frontend/public/assets/generated/flag-ro.dim_64x64.png",
-          "frontend/public/assets/generated/flag-bg.dim_64x64.png",
-          "frontend/public/assets/generated/flag-el.dim_64x64.png",
-          "frontend/public/assets/generated/flag-ga.dim_64x64.png",
-          "frontend/public/assets/generated/flag-sk.dim_64x64.png",
-          "frontend/src/pages/HomePage.tsx",
-          "frontend/src/components/LanguageSwitcher.tsx"
-        ],
-        "matchedFiles": [
-          "frontend/public/assets/generated/flag-uk.dim_64x64.png",
-          "frontend/public/assets/generated/flag-de.dim_64x64.png",
-          "frontend/public/assets/generated/flag-fr.dim_64x64.png",
-          "frontend/public/assets/generated/flag-es.dim_64x64.png",
-          "frontend/public/assets/generated/flag-it.dim_64x64.png",
-          "frontend/public/assets/generated/flag-pt.dim_64x64.png",
-          "frontend/public/assets/generated/flag-nl.dim_64x64.png",
-          "frontend/public/assets/generated/flag-sv.dim_64x64.png",
-          "frontend/public/assets/generated/flag-no.dim_64x64.png",
-          "frontend/public/assets/generated/flag-da.dim_64x64.png",
-          "frontend/public/assets/generated/flag-fi.dim_64x64.png",
-          "frontend/public/assets/generated/flag-pl.dim_64x64.png",
-          "frontend/public/assets/generated/flag-cs.dim_64x64.png",
-          "frontend/public/assets/generated/flag-hu.dim_64x64.png",
-          "frontend/public/assets/generated/flag-ro.dim_64x64.png",
-          "frontend/src/pages/HomePage.tsx",
-          "frontend/src/components/LanguageSwitcher.tsx"
-        ]
-      },
-      {
-        "id": "REQ-16",
-        "summary": "Extend the supported language metadata to include a flag asset reference per language so UI components can consistently render flags from the centralized language definition.",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/lib/languages.ts",
-          "frontend/src/pages/HomePage.tsx",
-          "frontend/src/components/LanguageSwitcher.tsx"
-        ],
-        "matchedFiles": [
-          "frontend/src/lib/languages.ts",
-          "frontend/src/pages/HomePage.tsx",
-          "frontend/src/components/LanguageSwitcher.tsx"
+          "frontend/src/components/AuthErrorBanner.tsx",
+          "frontend/src/components/AppHeader.tsx",
+          "frontend/src/components/CompleteSectionButton.tsx",
+          "frontend/src/components/StreakPanel.tsx",
+          "frontend/src/hooks/useQueries.ts"
         ]
       }
     ]
@@ -122,28 +64,14 @@
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
-    "frontend/public/assets/generated/flag-cs.dim_64x64.png",
-    "frontend/public/assets/generated/flag-da.dim_64x64.png",
-    "frontend/public/assets/generated/flag-de.dim_64x64.png",
-    "frontend/public/assets/generated/flag-es.dim_64x64.png",
-    "frontend/public/assets/generated/flag-fi.dim_64x64.png",
-    "frontend/public/assets/generated/flag-fr.dim_64x64.png",
-    "frontend/public/assets/generated/flag-hu.dim_64x64.png",
-    "frontend/public/assets/generated/flag-it.dim_64x64.png",
-    "frontend/public/assets/generated/flag-nl.dim_64x64.png",
-    "frontend/public/assets/generated/flag-no.dim_64x64.png",
-    "frontend/public/assets/generated/flag-pl.dim_64x64.png",
-    "frontend/public/assets/generated/flag-pt.dim_64x64.png",
-    "frontend/public/assets/generated/flag-ro.dim_64x64.png",
-    "frontend/public/assets/generated/flag-sv.dim_64x64.png",
-    "frontend/public/assets/generated/flag-uk.dim_64x64.png",
-    "frontend/src/components/LanguageSwitcher.tsx",
-    "frontend/src/data/lessonsSeed.ts",
-    "frontend/src/lib/cefrLevels.ts",
-    "frontend/src/lib/languages.ts",
-    "frontend/src/lib/lessonContent.ts",
-    "frontend/src/pages/HomePage.tsx",
-    "frontend/src/pages/LanguageLearningPage.tsx",
+    "frontend/src/App.tsx",
+    "frontend/src/components/AppHeader.tsx",
+    "frontend/src/components/AuthErrorBanner.tsx",
+    "frontend/src/components/CompleteSectionButton.tsx",
+    "frontend/src/components/StreakPanel.tsx",
+    "frontend/src/hooks/useQueries.ts",
+    "frontend/src/shims/processEnv.ts",
+    "frontend/src/types/process-env.d.ts",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

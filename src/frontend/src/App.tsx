@@ -1,3 +1,6 @@
+// Import process.env shim FIRST before any other imports
+import './shims/processEnv';
+
 import { useState } from 'react';
 import AppHeader from './components/AppHeader';
 import HomePage from './pages/HomePage';
@@ -18,6 +21,16 @@ function App() {
   const navigateToLanguage = (languageCode: string) => {
     setSelectedLanguage(languageCode);
     setCurrentView('learning');
+  };
+
+  // Safe footer link construction
+  const getFooterLink = () => {
+    try {
+      const hostname = typeof window !== 'undefined' ? window.location.hostname : 'unknown-app';
+      return `https://caffeine.ai/?utm_source=Caffeine-footer&utm_medium=referral&utm_content=${encodeURIComponent(hostname)}`;
+    } catch {
+      return 'https://caffeine.ai/?utm_source=Caffeine-footer&utm_medium=referral&utm_content=unknown-app';
+    }
   };
 
   return (
@@ -43,7 +56,7 @@ function App() {
             <p>
               © {new Date().getFullYear()} Euro 20 · Built with love using{' '}
               <a
-                href={`https://caffeine.ai/?utm_source=Caffeine-footer&utm_medium=referral&utm_content=${encodeURIComponent(window.location.hostname)}`}
+                href={getFooterLink()}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-foreground hover:underline font-medium"

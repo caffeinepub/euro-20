@@ -13,11 +13,16 @@ export function useGetStreakData() {
     queryKey: ['streakData', identity?.getPrincipal().toString()],
     queryFn: async () => {
       if (!actor || !identity) {
-        return { currentStreak: BigInt(0), bestStreak: BigInt(0), lastCompletionDate: BigInt(0) };
+        throw new Error('Authentication required to load streak data');
       }
-      return actor.getStreakData(identity.getPrincipal());
+      try {
+        return await actor.getStreakData(identity.getPrincipal());
+      } catch (error: any) {
+        throw new Error(error.message || 'Failed to load streak data from server');
+      }
     },
     enabled: !!actor && !actorFetching && !!identity,
+    retry: 1,
   });
 }
 
@@ -29,10 +34,14 @@ export function useRecordCompletion() {
   return useMutation({
     mutationFn: async () => {
       if (!actor || !identity) {
-        throw new Error('Not authenticated');
+        throw new Error('Please login to record your progress');
       }
-      const localDate = getLocalDateAsNumber();
-      return actor.recordDayCompletion(BigInt(localDate));
+      try {
+        const localDate = getLocalDateAsNumber();
+        return await actor.recordDayCompletion(BigInt(localDate));
+      } catch (error: any) {
+        throw new Error(error.message || 'Failed to record completion on server');
+      }
     },
     onSuccess: (result) => {
       queryClient.invalidateQueries({ queryKey: ['streakData'] });

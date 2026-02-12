@@ -1,40 +1,59 @@
 {
   "kind": "spec_vs_diff_report",
   "version": "1.0",
-  "generatedAt": "2026-02-10T16:16:09.297Z",
-  "summary": "Diff implements CEFR level definitions, level-aware lesson content lookup, a visible level selector in LanguageLearningPage, and flag rendering in HomePage and LanguageSwitcher using centralized language metadata. However, the diff summary does not provide evidence that the required 20 flag image assets were added under frontend/public/assets/generated, and the lessonsSeed.ts content is truncated so full coverage of all 20 languages × 6 levels × 5 sections cannot be verified from the provided diff.",
+  "generatedAt": "2026-02-11T10:41:48.590Z",
+  "summary": "The diff implements a browser-safe `process.env` shim and adds UI-visible error messaging for authentication and streak-related operations, but it does not show any concrete fix for the underlying Internet Computer build/deploy failure (no backend/config changes are evidenced). It also introduces some UI/behavior changes not explicitly requested (e.g., footer link construction and toast messaging changes).",
   "missing_requirements": [
     {
-      "id": "REQ-13",
-      "requirement": "Update the seeded lesson dataset to include CEFR levels for all 20 supported languages, using current content as A1 and providing valid content entries for A2, B1, B2, C1, and C2 for every language and section.",
-      "reason": "lessonsSeed.ts is shown only in truncated form and only demonstrates A1 content for English plus placeholder structures; there is no diff evidence confirming that every language code in languages.ts has entries for A1–C2 and that every section resolves for every (language, level).",
+      "id": "REQ-1",
+      "requirement": "Identify the exact build/deploy failure causing the deployment error and fix the root cause so the project builds and deploys successfully on the Internet Computer.",
+      "reason": "The diff contains only frontend code changes (shims, UI components, query/mutation error handling). There is no evidence of changes to backend canister code, dfx configuration, build tooling, or any other deploy-related root-cause fix or identification.",
       "evidence": [
-        "frontend/src/data/lessonsSeed.ts (truncated)",
-        "frontend/src/lib/languages.ts"
+        "frontend/src/App.tsx",
+        "frontend/src/shims/processEnv.ts",
+        "frontend/src/hooks/useQueries.ts",
+        "project_state.json"
       ]
     },
     {
-      "id": "REQ-15",
-      "requirement": "Add a country flag static asset for each of the 20 supported languages under frontend/public/assets/generated and display the flags in the home language grid and language switcher; do not serve flags via backend.",
-      "reason": "UI changes to render flags are present, but the diff summary includes no added/modified files under frontend/public/assets/generated, so the existence of the 20 required bundled flag images cannot be confirmed from the provided diff.",
+      "id": "REQ-3",
+      "requirement": "Add a minimal, user-facing error surface for failed authentication/actor initialization and failed streak mutations so errors are visible in the UI in English.",
+      "reason": "Authentication errors and streak mutation/load errors appear to be surfaced (AuthErrorBanner, inline errors, toasts), but there is no clear evidence of a user-facing error surface specifically for actor initialization/creation failures (e.g., `useActor` failures), beyond what is shown for streak queries/mutations.",
       "evidence": [
-        "frontend/src/lib/languages.ts",
-        "frontend/src/pages/HomePage.tsx",
-        "frontend/src/components/LanguageSwitcher.tsx"
+        "frontend/src/components/AuthErrorBanner.tsx",
+        "frontend/src/components/CompleteSectionButton.tsx",
+        "frontend/src/components/StreakPanel.tsx",
+        "frontend/src/hooks/useQueries.ts"
       ]
     }
   ],
-  "hallucinated_features": [],
-  "confidence": 0.66,
+  "hallucinated_features": [
+    {
+      "description": "Footer link construction logic and UTM tracking parameters added to the app footer.",
+      "reason": "Not requested by any requirement (REQ-1..REQ-3) and appears unrelated to fixing build/deploy issues, `process.env` browser shim, or minimal error surfaces.",
+      "evidence": [
+        "frontend/src/App.tsx"
+      ]
+    },
+    {
+      "description": "Toast success messaging includes an emoji (\"🔥\") in user-facing text.",
+      "reason": "Not requested and potentially conflicts with the constraint to use English for user-facing text (emoji is not English text, and may be considered noncompliant depending on interpretation).",
+      "evidence": [
+        "frontend/src/hooks/useQueries.ts"
+      ]
+    }
+  ],
+  "confidence": 0.74,
   "changed_files": [
     "frontend-file-summaries.txt",
-    "frontend/src/components/LanguageSwitcher.tsx",
-    "frontend/src/data/lessonsSeed.ts",
-    "frontend/src/lib/cefrLevels.ts",
-    "frontend/src/lib/languages.ts",
-    "frontend/src/lib/lessonContent.ts",
-    "frontend/src/pages/HomePage.tsx",
-    "frontend/src/pages/LanguageLearningPage.tsx",
+    "frontend/src/App.tsx",
+    "frontend/src/components/AppHeader.tsx",
+    "frontend/src/components/AuthErrorBanner.tsx",
+    "frontend/src/components/CompleteSectionButton.tsx",
+    "frontend/src/components/StreakPanel.tsx",
+    "frontend/src/hooks/useQueries.ts",
+    "frontend/src/shims/processEnv.ts",
+    "frontend/src/types/process-env.d.ts",
     "project_state.json"
   ]
 }

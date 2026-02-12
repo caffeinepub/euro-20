@@ -1,205 +1,40 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 7,
-  "summary": "Multilingual European language learning app \"Euro 20\" for students/global learners, now planning structured CEFR levels (A1–C2) per language, with a clean, distraction-free UI, daily streak tracking, voice pronunciation, and country flags for each language.",
-  "architectural_notes": [
-    "App name: Euro 20",
-    "Target audience: students and global learners; focus on A1-level foundations",
-    "Supported languages: English, German, French, Spanish, Italian, Portuguese, Dutch, Swedish, Norwegian, Danish, Finnish, Polish, Czech, Hungarian, Romanian, Bulgarian, Greek, Ukrainian, Irish, Slovak",
-    "Plan to expand content organization to CEFR levels A1–C2 for each supported language",
-    "Include per-language country flag icons as part of the app’s static UI assets"
+  "projectStateVersion": 3,
+  "summary": "New project",
+  "architectural_notes": [],
+  "known_issues": [
+    "Deployment process encountered an error (build/deploy failing)."
   ],
-  "known_issues": [],
-  "isFixRequest": false,
-  "imageRequirements": "## Required Images\n- United Kingdom flag (flag-uk.dim_64x64.png)\n- Germany flag (flag-de.dim_64x64.png)\n- France flag (flag-fr.dim_64x64.png)\n- Spain flag (flag-es.dim_64x64.png)\n- Italy flag (flag-it.dim_64x64.png)\n- Portugal flag (flag-pt.dim_64x64.png)\n- Netherlands flag (flag-nl.dim_64x64.png)\n- Sweden flag (flag-sv.dim_64x64.png)\n- Norway flag (flag-no.dim_64x64.png)\n- Denmark flag (flag-da.dim_64x64.png)\n- Finland flag (flag-fi.dim_64x64.png)\n- Poland flag (flag-pl.dim_64x64.png)\n- Czech Republic flag (flag-cs.dim_64x64.png)\n- Hungary flag (flag-hu.dim_64x64.png)\n- Romania flag (flag-ro.dim_64x64.png)\n- Bulgaria flag (flag-bg.dim_64x64.png)\n- Greece flag (flag-el.dim_64x64.png)\n- Ukraine flag (flag-uk.dim_64x64.png)\n- Ireland flag (flag-ga.dim_64x64.png)\n- Slovakia flag (flag-sk.dim_64x64.png)",
+  "isFixRequest": true,
   "existing_features": [
     {
-      "id": "feature-create-the-euro-20-app-home-page-that-lets-users-select-one-of-the-20-supported-languages-english-german-french-spanish-italian-portuguese-dutch-swedish-norwegian-danish-finnish-polish-czech-hungarian-romanian-bulgarian-greek-ukrainian-irish-and-slovak",
-      "title": "Create the Euro 20 app home page that lets users select one of the 20 supported languages: English, German, French, Spanish, Italian, Portuguese, Dutch, Swedish, Norwegian, Danish, Finnish, Polish, Czech, Hungarian, Romanian, Bulgarian, Greek, Ukrainian, Irish, and Slovak.",
+      "id": "feature-identify-the-exact-build-deploy-failure-causing-the-deployment-error-and-fix-the-root-cause-so-the-project-builds-and-deploys-successfully-on-the-internet-computer",
+      "title": "Identify the exact build/deploy failure causing the deployment error and fix the root cause so the project builds and deploys successfully on the Internet Computer.",
       "reqIds": [
         "REQ-1"
       ],
       "version": 1
     },
     {
-      "id": "feature-implement-a-consistent-beginner-a1-basic-lesson-structure-for-each-language-with-the-following-sections-alphabet-or-basic-sounds-if-applicable-greetings-numbers-common-words-and-simple-everyday-sentences",
-      "title": "Implement a consistent beginner (A1/basic) lesson structure for each language with the following sections: Alphabet or basic sounds (if applicable), Greetings, Numbers, Common words, and Simple everyday sentences.",
+      "id": "feature-eliminate-any-frontend-build-runtime-crash-caused-by-referencing-node-style-environment-variables-e-g-process-env-in-the-browser-bundle-notably-process-env-ii-url-used-by-the-internet-identity-hook-without-editing-immutable-files-implement-a-safe-shim-or-build-configuration-so-the-app-runs-in-the-browser-and-internet-identity-login-continues-to-function",
+      "title": "Eliminate any frontend build/runtime crash caused by referencing Node-style environment variables (e.g., `process.env.*`) in the browser bundle (notably `process.env.II_URL` used by the Internet Identity hook) without editing immutable files; implement a safe shim or build configuration so the app runs in the browser and Internet Identity login continues to function.",
       "reqIds": [
         "REQ-2"
       ],
       "version": 1
     },
     {
-      "id": "feature-provide-lesson-content-as-a-built-in-seed-dataset-for-all-20-languages-with-clear-english-explanations-and-native-language-examples-for-each-section",
-      "title": "Provide lesson content as a built-in seed dataset for all 20 languages, with clear English explanations and native-language examples for each section.",
+      "id": "feature-add-a-minimal-user-facing-error-surface-for-failed-authentication-actor-initialization-and-failed-streak-mutations-so-errors-that-would-otherwise-appear-only-in-console-logs-are-visible-in-the-ui-in-english",
+      "title": "Add a minimal, user-facing error surface for failed authentication/actor initialization and failed streak mutations so errors that would otherwise appear only in console logs are visible in the UI in English.",
       "reqIds": [
         "REQ-3"
       ],
       "version": 1
-    },
-    {
-      "id": "feature-add-a-simple-daily-learning-streak-system-that-tracks-a-user-s-current-streak-based-on-completing-at-least-one-lesson-section-per-calendar-day-user-s-local-date",
-      "title": "Add a simple daily learning streak system that tracks a user’s current streak based on completing at least one lesson section per calendar day (user’s local date).",
-      "reqIds": [
-        "REQ-4"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-create-a-clean-distraction-free-professional-ui-with-a-neutral-color-palette-easy-navigation-between-languages-and-lessons-and-a-responsive-layout-for-mobile-and-web",
-      "title": "Create a clean, distraction-free, professional UI with a neutral color palette, easy navigation between languages and lessons, and a responsive layout for mobile and web.",
-      "reqIds": [
-        "REQ-6"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-apply-one-coherent-distinctive-visual-theme-still-neutral-and-professional-consistently-across-the-app-colors-typography-spacing-cards-buttons-and-layout-patterns",
-      "title": "Apply one coherent, distinctive visual theme (still neutral and professional) consistently across the app (colors, typography, spacing, cards/buttons, and layout patterns).",
-      "reqIds": [
-        "REQ-7"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-generate-and-include-required-static-image-assets-for-the-app-logo-wordmark-and-a-subtle-background-texture-and-render-them-from-frontend-static-assets-not-via-the-backend",
-      "title": "Generate and include required static image assets for the app (logo/wordmark and a subtle background texture) and render them from frontend static assets (not via the backend).",
-      "reqIds": [
-        "REQ-8"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-add-a-voice-pronunciation-control-for-each-lesson-item-in-the-languagelearningpage-so-users-can-play-audio-for-the-item-s-native-text-using-the-browser-s-built-in-text-to-speech-web-speech-api",
-      "title": "Add a voice pronunciation control for each lesson item in the LanguageLearningPage so users can play audio for the item’s native text using the browser’s built-in text-to-speech (Web Speech API).",
-      "reqIds": [
-        "REQ-9"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-select-an-appropriate-speech-synthesis-language-voice-per-supported-language-by-mapping-the-app-s-language-codes-from-frontend-src-lib-languages-ts-to-bcp-47-language-tags-and-using-those-tags-when-creating-utterances",
-      "title": "Select an appropriate speech synthesis language/voice per supported language by mapping the app’s language codes (from `frontend/src/lib/languages.ts`) to BCP-47 language tags and using those tags when creating utterances.",
-      "reqIds": [
-        "REQ-10"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-provide-basic-playback-ux-for-pronunciation-so-users-can-stop-interrupt-speech-and-avoid-overlapping-audio-when-multiple-items-are-played",
-      "title": "Provide basic playback UX for pronunciation so users can stop/interrupt speech and avoid overlapping audio when multiple items are played.",
-      "reqIds": [
-        "REQ-11"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-add-cefr-level-support-a1-a2-b1-b2-c1-c2-across-the-lesson-content-model-so-lesson-content-is-addressable-by-language-cefr-level-section",
-      "title": "Add CEFR level support (A1, A2, B1, B2, C1, C2) across the lesson content model so lesson content is addressable by language + CEFR level + section.",
-      "reqIds": [
-        "REQ-12"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-update-the-seeded-lesson-dataset-to-include-cefr-levels-for-all-20-supported-languages-using-the-current-content-as-the-a1-level-and-providing-valid-non-crashing-content-entries-for-a2-b1-b2-c1-and-c2-for-every-language-and-section",
-      "title": "Update the seeded lesson dataset to include CEFR levels for all 20 supported languages, using the current content as the A1 level and providing valid (non-crashing) content entries for A2, B1, B2, C1, and C2 for every language and section.",
-      "reqIds": [
-        "REQ-13"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-add-a-cefr-level-selector-to-the-language-learning-experience-and-wire-it-so-switching-levels-updates-the-displayed-lesson-content-while-keeping-the-existing-section-navigation-behavior",
-      "title": "Add a CEFR level selector to the language learning experience and wire it so switching levels updates the displayed lesson content while keeping the existing section navigation behavior.",
-      "reqIds": [
-        "REQ-14"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-add-a-country-flag-static-asset-for-each-of-the-20-supported-languages-and-display-the-flag-in-the-home-language-grid-and-in-the-language-switcher-dropdown-and-or-current-selection-display",
-      "title": "Add a country flag static asset for each of the 20 supported languages and display the flag in the home language grid and in the language switcher dropdown (and/or current selection display).",
-      "reqIds": [
-        "REQ-15"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-extend-the-supported-language-metadata-to-include-a-flag-asset-reference-per-language-so-ui-components-can-consistently-render-flags-from-the-centralized-language-definition",
-      "title": "Extend the supported language metadata to include a flag asset reference per language so UI components can consistently render flags from the centralized language definition.",
-      "reqIds": [
-        "REQ-16"
-      ],
-      "version": 1
     }
   ],
-  "new_feature_requests": [
-    {
-      "id": "AR-1",
-      "summary": "Home screen with selection among 20 supported European languages",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-2",
-      "summary": "Beginner (A1) lesson structure for each language: alphabet/sounds (if applicable), greetings, numbers, common words/phrases, simple everyday sentences",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-3",
-      "summary": "Lesson pages with clear English explanations and native-language examples",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-4",
-      "summary": "Daily learning streak counter/system to encourage consistency",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-5",
-      "summary": "Clean, minimal, professional, distraction-free UI with neutral color palette and easy navigation",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-6",
-      "summary": "Responsive layout supporting both mobile and web",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-11",
-      "summary": "Implement backend persistence for streak tracking keyed by the authenticated user (Internet Identity principal), including fields for current streak, best streak (optional), and last completion date.",
-      "reqIds": [
-        "REQ-5"
-      ],
-      "status": "pending"
-    },
-    {
-      "id": "AR-12",
-      "summary": "Add voice pronunciation (audio) for lesson content across each of the 20 supported languages",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-13",
-      "summary": "Add CEFR proficiency levels (A1, A2, B1, B2, C1, C2) for each of the 20 supported languages and organize lesson content by level",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-14",
-      "summary": "Add a country flag icon for each supported language (UI display on home/language selection and/or language pages) using static image assets",
-      "reqIds": [],
-      "status": "pending"
-    }
-  ],
-  "gameProjectType": "none",
-  "projectName": "Euro 20",
+  "new_feature_requests": [],
+  "projectName": "Fix deployment/build failure",
   "clarification_mode": "instant",
   "clarification_rounds": 0
 }

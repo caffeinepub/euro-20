@@ -1,12 +1,12 @@
 import { useInternetIdentity } from '../hooks/useInternetIdentity';
 import { useGetStreakData } from '../hooks/useQueries';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Flame, Trophy, Calendar } from 'lucide-react';
+import { Flame, Trophy, Calendar, AlertCircle } from 'lucide-react';
 import { formatStreakDate } from '../lib/localDate';
 
 export default function StreakPanel() {
   const { identity } = useInternetIdentity();
-  const { data: streakData, isLoading } = useGetStreakData();
+  const { data: streakData, isLoading, isError, error } = useGetStreakData();
 
   if (!identity) {
     return (
@@ -37,6 +37,30 @@ export default function StreakPanel() {
         </CardHeader>
         <CardContent>
           <p className="text-sm text-muted-foreground">Loading...</p>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  if (isError) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-lg flex items-center gap-2">
+            <Flame className="h-5 w-5 text-orange-500" />
+            Daily Streak
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="flex items-start gap-2 p-3 bg-destructive/10 border border-destructive/20 rounded-md">
+            <AlertCircle className="h-4 w-4 text-destructive flex-shrink-0 mt-0.5" />
+            <div className="text-sm text-destructive">
+              <p className="font-medium">Failed to load streak data</p>
+              <p className="text-xs mt-1 opacity-90">
+                {error instanceof Error ? error.message : 'Please try refreshing the page'}
+              </p>
+            </div>
+          </div>
         </CardContent>
       </Card>
     );

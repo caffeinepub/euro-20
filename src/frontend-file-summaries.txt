@@ -6,8 +6,16 @@
   "frontend/src/pages/LanguageLearningPage.tsx": "Main learning page with CEFR level selector tabs, flag display in header, and level-aware lesson content rendering with section navigation.",
   "frontend/src/lib/cefrLevels.ts": "Defines CEFR level types (A1-C2) with metadata including labels and descriptions for the language learning proficiency framework.",
   "frontend/src/lib/languages.ts": "Extended language interface to include flag asset paths for all 20 supported European languages with centralized metadata.",
-  "frontend/src/lib/lessonContent.ts": "Updated lesson content retrieval function to support querying by language code, section ID, and CEFR level with graceful fallbacks.",
-  "frontend/src/data/lessonsSeed.ts": "Restructured lesson seed data to support all CEFR levels (A1-C2) for all 20 languages with A1 content populated and placeholder content for higher levels.",
+  "frontend/src/lib/lessonContent.ts": "Lesson content retrieval function that returns placeholder content for missing languages instead of falling back to English, with same-language level fallbacks preserved.",
+  "frontend/src/data/lessonsSeed.ts": "Complete lesson seed data for 9 European languages (English, German, Italian, Ukrainian, Portuguese, Dutch, Swedish, Norwegian, Danish) with authentic native-language content across all CEFR levels A1-C2 and all sections.",
   "frontend/src/pages/HomePage.tsx": "Language selection page displaying all 20 languages with their respective country flags in a responsive grid layout.",
-  "frontend/src/components/LanguageSwitcher.tsx": "Language switcher dropdown component displaying flags alongside language names for both the trigger and dropdown items."
+  "frontend/src/components/LanguageSwitcher.tsx": "Language switcher dropdown component displaying flags alongside language names for both the trigger and dropdown items.",
+  "frontend/src/shims/processEnv.ts": "Browser-safe shim that defines globalThis.process and process.env with default values for II_URL and NODE_ENV to prevent \"process is not defined\" errors in the browser bundle.",
+  "frontend/src/types/process-env.d.ts": "TypeScript global type declarations for process and process.env to ensure type safety for environment variables used throughout the app.",
+  "frontend/src/components/AuthErrorBanner.tsx": "Alert banner component that displays authentication errors from useInternetIdentity hook using the correct 'loginError' status type with clear English error messaging for users.",
+  "frontend/src/App.tsx": "Main app component with process.env shim imported first, safe footer link construction, and routing between home and learning views with theme provider.",
+  "frontend/src/components/AppHeader.tsx": "App header with logo, navigation, login button, and integrated AuthErrorBanner to display authentication errors at the top of the page.",
+  "frontend/src/components/CompleteSectionButton.tsx": "Button component for marking lesson sections complete with inline error display showing mutation failures in clear English messages.",
+  "frontend/src/components/StreakPanel.tsx": "Streak tracking panel with error state handling that displays clear English error messages when streak data fails to load.",
+  "frontend/src/hooks/useQueries.ts": "React Query hooks for streak data and completion recording with improved error handling and meaningful English error messages propagated to UI components."
 }
